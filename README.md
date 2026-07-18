@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="banner.svg" alt="SISTEM PENCERNAAN Interaktif — SISTEM PENCERNAAN Manusia" width="100%" />
+  <img src="banner.svg" alt="Simulasi Interaktif — Sistem Pencernaan Manusia" width="100%" />
 </p>
 
-<h1 align="center">SISTEM PENCERNAAN Interaktif — SISTEM PENCERNAAN Manusia</h1>
+<h1 align="center">Simulasi Interaktif — Sistem Pencernaan Manusia</h1>
 
 <p align="center">
   Peta anatomi yang bisa diklik, simulasi perjalanan makanan dengan gelombang peristaltik hidup,<br/>
