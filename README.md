@@ -29,7 +29,7 @@ Seluruhnya berjalan dari satu file HTML — tanpa server, tanpa instalasi, tanpa
 - **Simulasi Perjalanan Makanan** — animasi gelombang peristaltik dan jejak partikel yang mengikuti jalur makanan dari mulut sampai rektum, dengan penanda organ yang sedang aktif.
 - **Materi Lengkap — "Sembilan Plat, Satu Perjalanan"** — pembahasan tiap organ secara berurutan (fungsi, pH, enzim), dilengkapi gangguan pencernaan umum per organ dan kebiasaan menjaga kesehatan pencernaan.
 - **Lebih Dalam** — lapisan dinding saluran cerna, jalur pencernaan tiga makronutrien, hormon pencernaan, sistem saraf enterik ("otak kedua" dengan 100–500 juta neuron), sistem imun usus / GALT, dan glosarium istilah penting.
-- **Fakta & Kuis** — kumpulan fakta menarik seputar SISTEM PENCERNAAN, ditutup dengan 11 soal uji pemahaman dan skor otomatis.
+- **Fakta & Kuis** — kumpulan fakta menarik seputar Sistem Pencernaan, ditutup dengan 11 soal uji pemahaman dan skor otomatis.
 - Desain gelap dengan aksen warna khas tiap organ, tipografi Space Grotesk/Inter/IBM Plex Mono, tampilan responsif, serta menghormati preferensi `prefers-reduced-motion` untuk aksesibilitas.
 
 ## 🫀 Sembilan Organ yang Dibahas
