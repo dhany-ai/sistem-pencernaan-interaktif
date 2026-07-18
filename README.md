@@ -19,7 +19,7 @@
 
 ## Tentang Proyek
 
-**Sisten Pencernaan Interaktif** adalah aplikasi web satu halaman (*single-page*) untuk mempelajari Sistem Pencernaan manusia secara visual dan interaktif. Alih-alih membaca teks datar, pengguna bisa mengklik tiap organ pada diagram anatomi, menjalankan simulasi perjalanan makanan lengkap dengan gelombang peristaltik dan jejak partikel, memantau gauge pH tiap organ secara langsung, membaca materi berlapis dari dasar sampai lanjutan, dan menguji pemahamannya lewat kuis di akhir.
+**Sistem Pencernaan Interaktif** adalah aplikasi web satu halaman (*single-page*) untuk mempelajari Sistem Pencernaan manusia secara visual dan interaktif. Alih-alih membaca teks datar, pengguna bisa mengklik tiap organ pada diagram anatomi, menjalankan simulasi perjalanan makanan lengkap dengan gelombang peristaltik dan jejak partikel, memantau gauge pH tiap organ secara langsung, membaca materi berlapis dari dasar sampai lanjutan, dan menguji pemahamannya lewat kuis di akhir.
 
 Seluruhnya berjalan dari satu file HTML — tanpa server, tanpa instalasi, tanpa proses build. Tinggal dibuka di browser.
 
