@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="banner.svg" alt="SISTEM PENCERNAAN Interaktif — Sistem Pencernaan Manusia" width="100%" />
+  <img src="banner.svg" alt="Sistem Pencernaan Interaktif — Sistem Pencernaan Manusia" width="100%" />
 </p>
 
 <h1 align="center">SISTEM PENCERNAAN Interaktif — Sistem Pencernaan Manusia</h1>
