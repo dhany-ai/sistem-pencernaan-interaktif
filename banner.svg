@@ -1,0 +1,60 @@
+<svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Atlas Interaktif — Sistem Pencernaan Manusia">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a161f"/>
+      <stop offset="55%" stop-color="#0d1e26"/>
+      <stop offset="100%" stop-color="#0f232b"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5eead4"/>
+      <stop offset="75%" stop-color="#ffab84"/>
+    </linearGradient>
+    <pattern id="grid" width="46" height="46" patternUnits="userSpaceOnUse">
+      <path d="M46 0H0V46" fill="none" stroke="#eef6f4" stroke-opacity="0.045" stroke-width="1"/>
+    </pattern>
+    <filter id="blurBig" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="55"/>
+    </filter>
+  </defs>
+
+  <!-- shell background, matching the app's own shell color tokens -->
+  <rect width="1200" height="400" fill="url(#bg)"/>
+  <rect width="1200" height="400" fill="url(#grid)"/>
+
+  <!-- ambient blobs, same trio of accents as the app (cyan / coral / violet) -->
+  <circle cx="90" cy="10" r="150" fill="#22d3c7" opacity="0.13" filter="url(#blurBig)"/>
+  <circle cx="1120" cy="390" r="170" fill="#ff8b5e" opacity="0.11" filter="url(#blurBig)"/>
+  <circle cx="960" cy="40" r="120" fill="#a78bfa" opacity="0.09" filter="url(#blurBig)"/>
+
+  <!-- eyebrow meta row, reusing the app's own masthead motif -->
+  <line x1="60" y1="58" x2="1140" y2="58" stroke="#eef6f4" stroke-opacity="0.1"/>
+  <circle cx="66" cy="80" r="3.5" fill="#5eead4"/>
+  <text x="80" y="84" font-family="'Courier New',monospace" font-size="12.5" letter-spacing="1.5" fill="#96a9a4">REKAM DIAGNOSTIK INTERAKTIF</text>
+  <text x="378" y="84" font-family="'Courier New',monospace" font-size="12.5" letter-spacing="1.5" fill="#96a9a4">NO. <tspan fill="#5eead4">09-GI</tspan></text>
+  <text x="520" y="84" font-family="'Courier New',monospace" font-size="12.5" letter-spacing="1.5" fill="#96a9a4">STATUS: <tspan fill="#5eead4">AKTIF</tspan></text>
+  <line x1="60" y1="102" x2="1140" y2="102" stroke="#eef6f4" stroke-opacity="0.1"/>
+
+  <!-- title block -->
+  <text x="60" y="182" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700" letter-spacing="-1" fill="url(#titleGrad)">ATLAS INTERAKTIF</text>
+  <text x="60" y="222" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="500" fill="#eef6f4">Sistem Pencernaan Manusia</text>
+  <text x="60" y="252" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#96a9a4">Peta organ interaktif &#183; simulasi peristaltik &#183; gauge pH &#183; kuis pemahaman</text>
+
+  <!-- signature element: "sembilan plat, satu perjalanan" — the tract as one winding path, nine plates -->
+  <path d="M60,322 C105,322 150,292 195,292 C240,292 285,352 330,352 C375,352 420,292 465,292 C510,292 555,322 600,322 C645,322 690,352 735,352 C780,352 825,292 870,292 C915,292 960,352 1005,352 C1050,352 1095,322 1140,322"
+        fill="none" stroke="#eef6f4" stroke-opacity="0.16" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 9 organ nodes, plate 01-09, exact organ colors from the app -->
+  <g>
+    <circle cx="60" cy="322" r="15" fill="#e8997c" opacity="0.25"/><circle cx="60" cy="322" r="7.5" fill="#e8997c"/>
+    <circle cx="195" cy="292" r="15" fill="#d9805f" opacity="0.25"/><circle cx="195" cy="292" r="7.5" fill="#d9805f"/>
+    <circle cx="330" cy="352" r="15" fill="#e2564c" opacity="0.25"/><circle cx="330" cy="352" r="7.5" fill="#e2564c"/>
+    <circle cx="465" cy="292" r="15" fill="#b3705d" opacity="0.25"/><circle cx="465" cy="292" r="7.5" fill="#b3705d"/>
+    <circle cx="600" cy="322" r="15" fill="#8fae5a" opacity="0.25"/><circle cx="600" cy="322" r="7.5" fill="#8fae5a"/>
+    <circle cx="735" cy="352" r="15" fill="#e0ac4a" opacity="0.25"/><circle cx="735" cy="352" r="7.5" fill="#e0ac4a"/>
+    <circle cx="870" cy="292" r="15" fill="#f0a08c" opacity="0.25"/><circle cx="870" cy="292" r="7.5" fill="#f0a08c"/>
+    <circle cx="1005" cy="352" r="15" fill="#cf7a58" opacity="0.25"/><circle cx="1005" cy="352" r="7.5" fill="#cf7a58"/>
+    <circle cx="1140" cy="322" r="15" fill="#a35d54" opacity="0.25"/><circle cx="1140" cy="322" r="7.5" fill="#a35d54"/>
+  </g>
+
+  <text x="1140" y="382" text-anchor="end" font-family="'Courier New',monospace" font-size="11" letter-spacing="1" fill="#5c716c">DIBUAT DENGAN CLAUDE</text>
+</svg>

@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas Interaktif — Sistem Pencernaan Manusia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --shell:#0a161f;
+  --shell-2:#0d1e26;
+  --shell-3:#0f232b;
+  --text:#eef6f4;
+  --text-muted:#96a9a4;
+  --text-dim:#5c716c;
+  --glass-bg:rgba(255,255,255,0.045);
+  --glass-bg-strong:rgba(255,255,255,0.085);
+  --glass-border:rgba(255,255,255,0.10);
+  --glass-border-strong:rgba(255,255,255,0.22);
+
+  --accent-cyan:#22d3c7;
+  --accent-cyan-bright:#5eead4;
+  --accent-coral:#ff8b5e;
+  --accent-coral-bright:#ffab84;
+  --accent-violet:#a78bfa;
+
+  --o-mulut:#e8997c;
+  --o-esofagus:#d9805f;
+  --o-lambung:#e2564c;
+  --o-hati:#b3705d;
+  --o-empedu:#8fae5a;
+  --o-pankreas:#e0ac4a;
+  --o-usushalus:#f0a08c;
+  --o-ususbesar:#cf7a58;
+  --o-rektum:#a35d54;
+
+  --radius-s:7px;
+  --radius-m:14px;
+  --radius-l:22px;
+  --font-display:'Space Grotesk',-apple-system,sans-serif;
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-mono:'IBM Plex Mono','Courier New',monospace;
+  --ease:cubic-bezier(.22,.9,.34,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--shell);
+  color:var(--text);
+  font-family:var(--font-body);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  position:relative;
+  min-height:100vh;
+}
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(238,246,244,0.03) 0px, rgba(238,246,244,0.03) 1px, transparent 1px, transparent 46px),
+    repeating-linear-gradient(90deg, rgba(238,246,244,0.03) 0px, rgba(238,246,244,0.03) 1px, transparent 1px, transparent 46px);
+  pointer-events:none;
+  z-index:0;
+}
+.bg-blob{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;}
+.bg-blob-1{width:480px;height:480px;background:var(--accent-cyan);opacity:.13;top:-160px;left:-120px;animation:driftA 28s ease-in-out infinite alternate;}
+.bg-blob-2{width:440px;height:440px;background:var(--accent-coral);opacity:.11;bottom:-160px;right:-100px;animation:driftB 33s ease-in-out infinite alternate;}
+.bg-blob-3{width:360px;height:360px;background:var(--accent-violet);opacity:.08;top:40%;right:10%;animation:driftA 24s ease-in-out infinite alternate-reverse;}
+@keyframes driftA{from{transform:translate(0,0);}to{transform:translate(70px,50px);}}
+@keyframes driftB{from{transform:translate(0,0);}to{transform:translate(-60px,-40px);}}
+
+img,svg{display:block;max-width:100%;}
+button{font:inherit;color:inherit;}
+a{color:inherit;}
+
+.wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(1.25rem,4vw,3rem);position:relative;z-index:1;}
+:focus-visible{outline:2px solid var(--accent-cyan-bright);outline-offset:3px;border-radius:2px;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;scroll-behavior:auto !important;}
+}
+
+/* ============ MASTHEAD ============ */
+.masthead{padding:clamp(1.75rem,4vw,3.25rem) 0 1.5rem;}
+.masthead-meta{
+  font-family:var(--font-mono);
+  font-size:.72rem;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:var(--text-dim);
+  display:flex;flex-wrap:wrap;align-items:center;gap:.4em 1.4em;
+  border-top:1px solid var(--glass-border);
+  border-bottom:1px solid var(--glass-border);
+  padding:.6rem 0;
+  margin-bottom:1.6rem;
+}
+.masthead-meta span b{color:var(--accent-cyan-bright);font-weight:500;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-cyan-bright);display:inline-block;margin-right:5px;animation:pulseDot 1.7s ease-in-out infinite;}
+@keyframes pulseDot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(94,234,212,.55);}50%{opacity:.65;box-shadow:0 0 0 5px rgba(94,234,212,0);}}
+.masthead h1{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:clamp(2.15rem,4.6vw,3.5rem);
+  line-height:1.08;
+  letter-spacing:-.01em;
+  max-width:18ch;
+}
+.masthead h1 span{
+  background:linear-gradient(100deg,var(--accent-cyan-bright),var(--accent-coral-bright) 70%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.masthead p.lede{margin-top:1rem;max-width:58ch;color:var(--text-muted);font-size:1.03rem;}
+.masthead .figures{margin-top:1.6rem;font-family:var(--font-mono);font-size:.82rem;color:var(--text-muted);display:flex;flex-wrap:wrap;gap:.5em 2em;}
+.masthead .figures b{color:var(--text);font-weight:600;}
+
+/* ============ TABS ============ */
+.tabs{display:flex;gap:.35rem;padding-top:.4rem;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab-btn{
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-bottom:none;
+  color:var(--text-muted);
+  padding:.68rem 1.1rem;
+  border-radius:10px 10px 0 0;
+  cursor:pointer;
+  font-size:.85rem;
+  font-weight:500;
+  white-space:nowrap;
+  transition:background .18s var(--ease),color .18s var(--ease);
+  position:relative;top:1px;
+}
+.tab-btn:hover{color:var(--text);background:var(--glass-bg-strong);}
+.tab-btn.active{background:var(--shell-3);color:var(--accent-cyan-bright);border-color:var(--glass-border-strong);}
+main{
+  border-top:1px solid var(--glass-border-strong);
+  background:rgba(255,255,255,0.025);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  border-radius:0 16px 16px 16px;
+  border:1px solid var(--glass-border);
+  border-top-left-radius:0;
+  padding:clamp(1.25rem,3.5vw,2.25rem);
+}
+.tab-content{display:none;}
+.tab-content.active{display:block;animation:fadein .32s var(--ease);}
+@keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+.section-heading{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-cyan-bright);margin-bottom:.5rem;}
+h2.title{font-family:var(--font-display);font-weight:600;font-size:clamp(1.35rem,3vw,1.75rem);margin-bottom:.35rem;}
+.section-sub{color:var(--text-muted);font-size:.95rem;max-width:64ch;margin-bottom:1.5rem;}
+
+/* ============ DIAGRAM TAB ============ */
+.diagram-layout{display:grid;grid-template-columns:1.35fr 1fr;gap:1.4rem;align-items:start;min-width:0;}
+.panel-card{
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-l);
+  padding:1.1rem;
+  backdrop-filter:blur(10px);
+  min-width:0;
+}
+.svg-wrap{position:relative;}
+.svg-wrap svg{width:100%;height:auto;}
+
+.organ{cursor:pointer;transition:filter .2s var(--ease),opacity .2s var(--ease);transform-box:fill-box;transform-origin:center;}
+.organ:hover,.organ.active{filter:brightness(1.28) drop-shadow(0 0 10px rgba(238,246,244,0.6));}
+.organ.enter{animation:organIn .7s var(--ease) both;}
+@keyframes organIn{from{opacity:0;transform:scale(.86);}to{opacity:1;transform:scale(1);}}
+
+.organ-outline{fill:none;stroke:var(--glass-border-strong);stroke-width:2;opacity:.5;}
+.organ-mulut{fill:url(#g-mulut);}
+.organ-esofagus{fill:none;stroke:var(--o-esofagus);stroke-width:24;stroke-linecap:round;stroke-linejoin:round;}
+.organ-lambung{fill:url(#g-lambung);stroke:rgba(0,0,0,.28);stroke-width:1.5;}
+.organ-hati{fill:url(#g-hati);stroke:rgba(0,0,0,.28);stroke-width:1.5;}
+.organ-empedu{fill:url(#g-empedu);}
+.organ-pankreas{fill:url(#g-pankreas);stroke:rgba(0,0,0,.28);stroke-width:1.5;}
+.organ-usushalus{fill:url(#g-usushalus);stroke:rgba(0,0,0,.25);stroke-width:1;}
+.organ-ususbesar{fill:url(#g-ususbesar);stroke:rgba(0,0,0,.28);stroke-width:1.2;}
+.organ-rektum{fill:none;stroke:var(--o-rektum);stroke-width:20;stroke-linecap:round;stroke-linejoin:round;}
+.organ-label{font-family:var(--font-mono);font-size:11px;fill:var(--text-muted);pointer-events:none;paint-order:stroke;stroke:var(--shell);stroke-width:4px;stroke-linejoin:round;}
+
+.peristalsis{stroke-dasharray:16 10;animation:peristalsisMove .75s linear infinite;}
+@keyframes peristalsisMove{to{stroke-dashoffset:-26;}}
+.churn{animation:churnMove 1.05s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes churnMove{0%,100%{transform:scale(1,1);}50%{transform:scale(.965,1.03);}}
+
+.food-particle{fill:#ffe3a3;filter:drop-shadow(0 0 8px rgba(255,227,163,0.95));opacity:0;}
+.food-trail{fill:#ffe3a3;opacity:0;pointer-events:none;}
+
+.legend{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--glass-border-strong);min-width:0;}
+.legend-item{
+  display:flex;align-items:center;gap:.4rem;
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  padding:.32rem .6rem;border-radius:20px;font-size:.76rem;cursor:pointer;color:var(--text-muted);
+  transition:border-color .18s,color .18s,background .18s;
+}
+.legend-item:hover,.legend-item.active{border-color:var(--glass-border-strong);color:var(--text);background:var(--glass-bg-strong);}
+.legend-dot{width:9px;height:9px;border-radius:50%;flex:none;}
+
+.sim-controls{display:flex;gap:.6rem;margin-top:1.1rem;flex-wrap:wrap;align-items:center;min-width:0;}
+.btn{font-family:var(--font-body);font-weight:600;font-size:.86rem;padding:.65rem 1.15rem;border-radius:var(--radius-m);border:1px solid transparent;cursor:pointer;transition:transform .15s var(--ease),filter .15s var(--ease),background .15s;}
+.btn:active{transform:translateY(1px);}
+.btn-primary{background:linear-gradient(135deg,var(--accent-cyan-bright),var(--accent-cyan) 60%,#14b8ac);color:#04231f;}
+.btn-primary:hover{filter:brightness(1.08);}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;filter:none;}
+.btn-ghost{background:transparent;border-color:var(--glass-border-strong);color:var(--text-muted);}
+.btn-ghost:hover{color:var(--text);border-color:var(--text-muted);}
+.sim-timer{font-family:var(--font-mono);font-size:.8rem;color:var(--accent-coral-bright);margin-left:auto;}
+
+.stepper{display:flex;align-items:flex-start;margin-top:1.4rem;overflow-x:auto;padding-bottom:.3rem;min-width:0;}
+.step{display:flex;flex-direction:column;align-items:center;gap:.35rem;min-width:72px;opacity:.4;transition:opacity .25s var(--ease);}
+.step.active,.step.done{opacity:1;}
+.step-dot{width:11px;height:11px;border-radius:50%;background:var(--text-dim);border:2px solid var(--shell-3);box-shadow:0 0 0 1px var(--glass-border-strong);transition:background .25s,box-shadow .25s;}
+.step.active .step-dot{background:var(--accent-cyan-bright);box-shadow:0 0 0 4px rgba(94,234,212,0.22);}
+.step.done .step-dot{background:var(--accent-coral);}
+.step-label{font-size:.66rem;text-align:center;color:var(--text-muted);font-family:var(--font-mono);}
+.step-line{flex:1;height:2px;background:var(--glass-border);margin-top:5px;min-width:12px;}
+
+/* ---- diagnostic glass card ---- */
+.chart-card{
+  background:linear-gradient(160deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02));
+  border:1px solid var(--glass-border-strong);
+  border-top:3px solid var(--card-accent,var(--accent-cyan));
+  color:var(--text);
+  border-radius:var(--radius-l);
+  padding:1.3rem 1.3rem 1.15rem;
+  position:relative;
+  min-height:420px;
+  min-width:0;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 20px 44px -18px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
+  transition:box-shadow .3s var(--ease), border-top-color .3s var(--ease);
+}
+.chart-card .plate-tag{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--card-accent,var(--accent-cyan-bright));margin-bottom:.3rem;}
+.chart-card h3{font-family:var(--font-display);font-weight:600;font-size:1.5rem;margin-bottom:.15rem;}
+.chart-card .tagline{font-size:.86rem;color:var(--text-muted);margin-bottom:.95rem;}
+.chart-card .vitals-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.85rem;}
+.vital{border:1px solid var(--glass-border-strong);background:rgba(255,255,255,0.03);border-radius:8px;padding:.35rem .55rem;min-width:82px;}
+.vital-label{display:block;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);}
+.vital-value{display:block;font-family:var(--font-mono);font-size:.84rem;font-weight:600;margin-top:.1rem;color:var(--text);}
+.ph-gauge{margin:.9rem 0 1rem;}
+.ph-gauge-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.35rem;}
+.ph-gauge-label{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);}
+.ph-gauge-value{font-family:var(--font-mono);font-size:.78rem;color:var(--text);font-weight:600;}
+.ph-track{height:8px;border-radius:99px;position:relative;background:linear-gradient(90deg,#e2564c 0%,#e0ac4a 25%,#22d3c7 50%,#6ea8dc 75%,#a78bfa 100%);}
+.ph-marker{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;background:#fff;border:2px solid var(--shell);transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(255,255,255,.22),0 2px 8px rgba(0,0,0,.5);transition:left .5s var(--ease);}
+.ph-scale-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.6rem;color:var(--text-dim);margin-top:.3rem;}
+.chart-card .desc p{font-size:.92rem;color:var(--text);}
+.chart-card .cut-line{border:none;border-top:1px dashed var(--glass-border-strong);margin:.95rem 0;}
+.chart-card .fact-box{font-size:.82rem;background:rgba(255,255,255,0.04);border-left:3px solid var(--card-accent,var(--accent-cyan));padding:.55rem .7rem;border-radius:0 8px 8px 0;color:var(--text-muted);}
+.chart-card .fact-box b{color:var(--card-accent,var(--accent-cyan-bright));}
+.chart-card.empty{display:flex;align-items:center;justify-content:center;text-align:center;color:var(--text-muted);min-height:420px;}
+.chart-card.empty .empty-inner{max-width:32ch;}
+.chart-card.empty .empty-icon{font-size:1.8rem;margin-bottom:.6rem;}
+.sim-badge{display:inline-block;font-family:var(--font-mono);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;background:var(--accent-coral);color:#2b1206;padding:.18rem .5rem;border-radius:4px;margin-bottom:.5rem;font-weight:600;}
+
+/* ============ MATERI TAB ============ */
+.flow-strip{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin-bottom:1.8rem;font-family:var(--font-mono);font-size:.74rem;}
+.flow-chip{background:var(--glass-bg);border:1px solid var(--glass-border);padding:.3rem .6rem;border-radius:20px;color:var(--text-muted);}
+.flow-arrow{color:var(--text-dim);}
+
+.accordion-item{border:1px solid var(--glass-border);border-radius:var(--radius-m);margin-bottom:.65rem;overflow:hidden;background:var(--glass-bg);}
+.accordion-head{width:100%;display:flex;align-items:center;gap:.85rem;padding:.95rem 1.1rem;background:transparent;border:none;cursor:pointer;text-align:left;color:var(--text);}
+.accordion-head .swatch{width:11px;height:11px;border-radius:50%;flex:none;box-shadow:0 0 8px currentColor;}
+.accordion-head .plate-num{font-family:var(--font-mono);font-size:.72rem;color:var(--text-dim);flex:none;}
+.accordion-head .name{font-weight:600;font-size:1.02rem;flex:1;}
+.accordion-head .chev{color:var(--text-dim);transition:transform .25s var(--ease);flex:none;}
+.accordion-item.open .accordion-head .chev{transform:rotate(180deg);}
+.accordion-body{max-height:0;overflow:hidden;transition:max-height .35s var(--ease);}
+.accordion-body-inner{padding:1rem 1.15rem 1.15rem;background:rgba(255,255,255,0.03);color:var(--text);margin:0 .7rem .7rem;border-radius:var(--radius-m);border:1px solid var(--glass-border);}
+.accordion-body-inner h4{font-family:var(--font-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-coral-bright);margin:.85rem 0 .35rem;}
+.accordion-body-inner h4:first-child{margin-top:0;}
+.accordion-body-inner p{font-size:.92rem;margin-bottom:.4rem;color:var(--text-muted);}
+.accordion-body-inner ul{padding-left:1.1rem;font-size:.9rem;color:var(--text-muted);}
+.accordion-body-inner li{margin-bottom:.25rem;}
+.accordion-body-inner .enz-tag{display:inline-block;background:rgba(255,255,255,0.05);border:1px solid var(--glass-border-strong);padding:.15rem .5rem;border-radius:12px;font-size:.78rem;margin:.15rem .3rem .15rem 0;color:var(--text);}
+
+.stat-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.7rem;margin:1.8rem 0;}
+.stat-box{border:1px solid var(--glass-border);border-radius:var(--radius-m);padding:.9rem 1rem;background:var(--glass-bg);}
+.stat-box .num{font-family:var(--font-display);font-size:1.65rem;color:var(--accent-cyan-bright);font-weight:600;}
+.stat-box .lbl{font-size:.78rem;color:var(--text-muted);margin-top:.15rem;}
+
+.subhead{margin-top:2.4rem;margin-bottom:1rem;padding-top:1.6rem;border-top:1px solid var(--glass-border);}
+.subhead h3{font-family:var(--font-display);font-size:1.25rem;font-weight:600;margin-bottom:.3rem;}
+.subhead p{color:var(--text-muted);font-size:.9rem;max-width:60ch;}
+
+.disorders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.8rem;}
+.disorder-card{border:1px solid var(--glass-border);border-radius:var(--radius-m);padding:1rem;background:var(--glass-bg);border-left:3px solid var(--d-color,var(--accent-coral));}
+.disorder-card .d-name{font-weight:600;font-size:.98rem;margin-bottom:.15rem;}
+.disorder-card .d-organ{font-family:var(--font-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;color:var(--d-color,var(--accent-coral-bright));margin-bottom:.55rem;}
+.disorder-card .d-row{font-size:.84rem;color:var(--text-muted);margin-top:.35rem;}
+.disorder-card .d-row b{color:var(--text);font-weight:600;display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;font-family:var(--font-mono);margin-bottom:.1rem;}
+
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.7rem;}
+.tip-card{display:flex;gap:.6rem;align-items:flex-start;border:1px solid var(--glass-border);border-radius:var(--radius-m);padding:.85rem 1rem;background:var(--glass-bg);font-size:.87rem;color:var(--text-muted);}
+.tip-num{font-family:var(--font-mono);color:var(--accent-cyan-bright);font-weight:600;flex:none;}
+
+/* ============ LEBIH DALAM TAB ============ */
+.layer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin-bottom:.5rem;}
+.layer-card{border:1px solid var(--glass-border);border-radius:var(--radius-m);padding:1rem;background:var(--glass-bg);position:relative;overflow:hidden;}
+.layer-card::before{content:attr(data-depth);position:absolute;top:-6px;right:-2px;font-family:var(--font-display);font-size:2.6rem;font-weight:700;color:rgba(255,255,255,0.05);line-height:1;}
+.layer-card .l-name{font-weight:600;font-size:1rem;color:var(--accent-cyan-bright);margin-bottom:.15rem;position:relative;}
+.layer-card .l-pos{font-family:var(--font-mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);margin-bottom:.5rem;}
+.layer-card .l-desc{font-size:.85rem;color:var(--text-muted);position:relative;}
+.immune-box{border:1px solid var(--glass-border);border-radius:var(--radius-l);padding:1.3rem;background:linear-gradient(160deg,rgba(143,174,90,0.1),rgba(255,255,255,0.02));margin-bottom:.5rem;}
+.immune-box p{font-size:.93rem;color:var(--text-muted);margin-bottom:.7rem;}
+.immune-box p:last-child{margin-bottom:0;}
+.immune-box b{color:var(--text);}
+.macro-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-bottom:.5rem;}
+.macro-card{border:1px solid var(--glass-border);border-radius:var(--radius-l);padding:1.1rem;background:var(--glass-bg);border-top:3px solid var(--m-color,var(--accent-cyan));}
+.macro-card h4{font-family:var(--font-display);font-size:1.15rem;margin-bottom:.85rem;color:var(--m-color,var(--accent-cyan-bright));}
+.macro-step{position:relative;padding-left:1.1rem;margin-bottom:.85rem;border-left:2px solid var(--glass-border-strong);}
+.macro-step:last-child{margin-bottom:0;}
+.macro-step::before{content:"";position:absolute;left:-5px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--m-color,var(--accent-cyan));}
+.macro-step .loc{font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-dim);margin-bottom:.15rem;}
+.macro-step .desc{font-size:.85rem;color:var(--text-muted);}
+
+.hormone-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.8rem;}
+.hormone-card{border:1px solid var(--glass-border);border-radius:var(--radius-m);padding:1rem;background:var(--glass-bg);}
+.hormone-card .h-name{font-weight:600;font-size:1rem;margin-bottom:.6rem;color:var(--accent-coral-bright);}
+.hormone-card .h-row{font-size:.83rem;color:var(--text-muted);margin-bottom:.4rem;}
+.hormone-card .h-row b{color:var(--text);font-family:var(--font-mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.1rem;}
+
+.enteric-box{border:1px solid var(--glass-border);border-radius:var(--radius-l);padding:1.3rem;background:linear-gradient(160deg,rgba(167,139,250,0.08),rgba(255,255,255,0.02));margin-bottom:.5rem;}
+.enteric-box p{font-size:.93rem;color:var(--text-muted);margin-bottom:.7rem;}
+.enteric-box p:last-child{margin-bottom:0;}
+.enteric-box b{color:var(--text);}
+
+.glossary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.6rem 1.2rem;}
+.gloss-item{padding:.6rem 0;border-bottom:1px solid var(--glass-border);}
+.gloss-item .g-term{font-weight:600;font-size:.88rem;color:var(--accent-cyan-bright);}
+.gloss-item .g-def{font-size:.83rem;color:var(--text-muted);margin-top:.15rem;}
+
+/* ============ FAKTA & KUIS TAB ============ */
+.facts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.8rem;margin-bottom:2.4rem;}
+.fact-card{border:1px solid var(--glass-border);border-radius:var(--radius-m);padding:1rem;background:var(--glass-bg);font-size:.88rem;color:var(--text-muted);}
+.fact-card .fact-num{font-family:var(--font-mono);color:var(--accent-cyan-bright);font-size:.78rem;display:block;margin-bottom:.4rem;}
+
+.quiz-card{border:1px solid var(--glass-border);border-radius:var(--radius-m);padding:1.1rem;margin-bottom:.85rem;background:var(--glass-bg);}
+.quiz-q{font-weight:600;margin-bottom:.75rem;font-size:.98rem;}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;}
+@media(max-width:560px){.quiz-opts{grid-template-columns:1fr;}}
+.quiz-opt{text-align:left;border:1px solid var(--glass-border-strong);background:rgba(255,255,255,0.02);border-radius:var(--radius-s);padding:.6rem .75rem;font-size:.86rem;cursor:pointer;transition:background .15s,border-color .15s;color:var(--text);}
+.quiz-opt:hover:not(:disabled){border-color:var(--accent-cyan-bright);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-opt.correct{background:rgba(143,174,90,0.28);border-color:var(--o-empedu);}
+.quiz-opt.incorrect{background:rgba(226,86,76,0.28);border-color:var(--o-lambung);}
+.quiz-feedback{margin-top:.6rem;font-size:.82rem;color:var(--text-muted);min-height:1.1em;}
+.quiz-score{margin-top:1rem;padding:1rem;border-radius:var(--radius-m);border:1px solid var(--glass-border-strong);text-align:center;font-family:var(--font-mono);display:none;background:var(--glass-bg);}
+.quiz-score.show{display:block;}
+.quiz-score .score-num{font-family:var(--font-display);font-size:1.8rem;color:var(--accent-cyan-bright);}
+
+footer{margin-top:2.5rem;padding:1.6rem 0 3rem;color:var(--text-dim);font-size:.8rem;border-top:1px solid var(--glass-border);text-align:center;}
+footer b{color:var(--text-muted);}
+
+@media(max-width:880px){
+  .diagram-layout{grid-template-columns:1fr;}
+  .chart-card{min-height:280px;}
+}
+
+/* ============ PHONE BREAKPOINT ============ */
+@media(max-width:640px){
+  .wrap{padding-inline:1rem;}
+  .masthead{padding:1.1rem 0 1rem;}
+  .masthead-meta{font-size:.6rem;gap:.3em .9em;padding:.5rem 0;}
+  .masthead h1{font-size:clamp(1.55rem,7.5vw,2.1rem);max-width:100%;}
+  .masthead p.lede{font-size:.88rem;margin-top:.7rem;}
+  .masthead .figures{font-size:.7rem;gap:.4em 1.1em;margin-top:1.1rem;}
+
+  .tabs{gap:.25rem;}
+  .tab-btn{padding:.6rem .8rem;font-size:.76rem;}
+
+  main{padding:1rem;border-radius:0 12px 12px 12px;}
+  .section-heading{font-size:.66rem;}
+  h2.title{font-size:1.15rem;}
+  .section-sub{font-size:.86rem;margin-bottom:1.1rem;}
+
+  .panel-card{padding:.8rem;}
+  .organ-label{display:none;}
+
+  .legend{gap:.4rem;}
+  .legend-item{padding:.45rem .75rem;font-size:.8rem;}
+
+  .sim-controls{gap:.55rem;}
+  .btn{padding:.68rem 1rem;font-size:.85rem;flex:1 1 140px;}
+  .sim-timer{flex-basis:100%;margin-left:0;}
+
+  .stepper{gap:.15rem;}
+  .step{min-width:54px;}
+  .step-label{font-size:.56rem;}
+
+  .chart-card{padding:1.1rem 1.1rem 1rem;min-height:auto;}
+  .chart-card h3{font-size:1.3rem;}
+  .vital{min-width:70px;padding:.3rem .5rem;}
+
+  .stat-strip{grid-template-columns:repeat(2,1fr);gap:.55rem;}
+  .stat-box{padding:.75rem .85rem;}
+  .stat-box .num{font-size:1.35rem;}
+
+  .flow-strip{font-size:.68rem;}
+
+  .accordion-head{padding:.8rem .85rem;gap:.6rem;}
+  .accordion-head .name{font-size:.94rem;}
+  .accordion-body-inner{padding:.9rem 1rem 1rem;margin:0 .4rem .5rem;}
+
+  .subhead{margin-top:1.8rem;padding-top:1.2rem;}
+  .subhead h3{font-size:1.1rem;}
+
+  .disorder-card,.hormone-card,.macro-card,.layer-card,.fact-card{padding:.85rem;}
+
+  .quiz-card{padding:.9rem;}
+  .quiz-q{font-size:.92rem;}
+  .quiz-opt{padding:.65rem .7rem;font-size:.84rem;}
+
+  footer{font-size:.74rem;padding:1.3rem 0 2.2rem;}
+}
+</style>
+</head>
+<body>
+<div class="bg-blob bg-blob-1"></div>
+<div class="bg-blob bg-blob-2"></div>
+<div class="bg-blob bg-blob-3"></div>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="masthead-meta">
+      <span><span class="status-dot"></span>REKAM DIAGNOSTIK INTERAKTIF</span>
+      <span>NO. <b>09-GI</b></span>
+      <span id="today-date">TANGGAL —</span>
+      <span>STATUS: <b>AKTIF</b></span>
+    </div>
+    <h1>Atlas Interaktif<br><span>Sistem Pencernaan Manusia</span></h1>
+    <p class="lede">Peta anatomi yang bisa diklik, simulasi perjalanan makanan dengan gelombang peristaltik hidup, dan materi mendalam — mulai dari enzim, hormon, sampai "otak kedua" di perut sendiri.</p>
+    <div class="figures">
+      <span>PANJANG SALURAN <b>≈ 9 M</b></span>
+      <span>ORGAN UTAMA <b>9</b></span>
+      <span>WAKTU TRANSIT <b>24–72 JAM</b></span>
+      <span>NEURON USUS <b>100–500 JT</b></span>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="diagram" role="tab" aria-selected="true">Diagram &amp; Simulasi</button>
+    <button class="tab-btn" data-tab="materi" role="tab" aria-selected="false">Materi Lengkap</button>
+    <button class="tab-btn" data-tab="dalam" role="tab" aria-selected="false">Lebih Dalam</button>
+    <button class="tab-btn" data-tab="fakta" role="tab" aria-selected="false">Fakta &amp; Kuis</button>
+  </nav>
+
+  <main>
+    <!-- ======================= TAB 1: DIAGRAM & SIMULASI ======================= -->
+    <section id="tab-diagram" class="tab-content active">
+      <div class="section-heading">Plat Anatomi 01–09</div>
+      <h2 class="title">Peta Organ Interaktif</h2>
+      <p class="section-sub">Klik organ pada diagram (atau daftar warna di bawahnya) untuk membaca kartu diagnostiknya, lengkap dengan gauge pH hidup. Atau tekan "Mulai Simulasi" untuk mengikuti perjalanan makanan dengan gelombang peristaltik dan jejak partikel.</p>
+
+      <div class="diagram-layout">
+        <div class="panel-card">
+          <div class="svg-wrap">
+            <svg id="digestive-svg" viewBox="0 0 600 950" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram sistem pencernaan manusia">
+              <defs>
+                <radialGradient id="g-mulut" cx="35%" cy="30%" r="80%">
+                  <stop offset="0%" stop-color="#f4bd9f"/><stop offset="60%" stop-color="#e8997c"/><stop offset="100%" stop-color="#c67a5e"/>
+                </radialGradient>
+                <radialGradient id="g-lambung" cx="30%" cy="26%" r="85%">
+                  <stop offset="0%" stop-color="#f0827a"/><stop offset="55%" stop-color="#e2564c"/><stop offset="100%" stop-color="#b23d35"/>
+                </radialGradient>
+                <radialGradient id="g-hati" cx="28%" cy="24%" r="90%">
+                  <stop offset="0%" stop-color="#c98d76"/><stop offset="55%" stop-color="#b3705d"/><stop offset="100%" stop-color="#875343"/>
+                </radialGradient>
+                <radialGradient id="g-empedu" cx="35%" cy="25%" r="85%">
+                  <stop offset="0%" stop-color="#addb85"/><stop offset="60%" stop-color="#8fae5a"/><stop offset="100%" stop-color="#697f3d"/>
+                </radialGradient>
+                <radialGradient id="g-pankreas" cx="28%" cy="30%" r="85%">
+                  <stop offset="0%" stop-color="#f0c579"/><stop offset="55%" stop-color="#e0ac4a"/><stop offset="100%" stop-color="#b3822f"/>
+                </radialGradient>
+                <radialGradient id="g-usushalus" cx="35%" cy="25%" r="90%">
+                  <stop offset="0%" stop-color="#f7c3af"/><stop offset="55%" stop-color="#f0a08c"/><stop offset="100%" stop-color="#c67c68"/>
+                </radialGradient>
+                <radialGradient id="g-ususbesar" cx="35%" cy="25%" r="95%">
+                  <stop offset="0%" stop-color="#e0a077"/><stop offset="55%" stop-color="#cf7a58"/><stop offset="100%" stop-color="#a05a3c"/>
+                </radialGradient>
+              </defs>
+              <path class="organ-outline" d="M300,42 C262,42 244,70 239,98 C204,109 165,138 150,186 C126,254 116,344 116,444 C116,574 126,694 145,792 C155,840 184,870 222,880 L378,880 C416,870 445,840 455,792 C474,694 484,574 484,444 C484,344 474,254 450,186 C435,138 396,109 361,98 C356,70 338,42 300,42 Z"/>
+
+              <g class="organ" data-organ="esofagus" tabindex="0" role="button" aria-label="Esofagus">
+                <path class="organ-esofagus" d="M300,112 C301,150 312,195 328,235 C335,246 340,252 345,258"/>
+              </g>
+
+              <g class="organ" data-organ="hati" tabindex="0" role="button" aria-label="Hati">
+                <path class="organ-hati" d="M145.0,150.0 L147.3,148.6 L149.2,146.6 L151.0,144.3 L152.6,141.6 L154.2,138.8 L155.8,135.8 L157.5,132.7 L159.4,129.7 L161.5,126.8 L163.9,124.2 L166.7,121.9 L170.0,120.0 L173.8,118.4 L178.0,117.0 L182.5,115.7 L187.4,114.5 L192.5,113.5 L197.8,112.6 L203.2,111.9 L208.7,111.3 L214.2,110.8 L219.6,110.4 L224.9,110.1 L230.0,110.0 L235.1,110.0 L240.3,110.2 L245.6,110.5 L250.9,111.0 L256.3,111.6 L261.6,112.3 L266.8,113.1 L271.9,114.0 L276.8,114.9 L281.4,115.9 L285.9,117.0 L290.0,118.0 L293.8,119.1 L297.3,120.2 L300.6,121.5 L303.7,122.8 L306.6,124.1 L309.4,125.6 L312.0,127.0 L314.6,128.6 L317.2,130.1 L319.7,131.7 L322.3,133.3 L325.0,135.0 L327.7,136.7 L330.4,138.5 L333.2,140.4 L335.9,142.3 L338.5,144.3 L341.1,146.3 L343.7,148.3 L346.1,150.3 L348.5,152.3 L350.8,154.3 L353.0,156.2 L355.0,158.0 L357.0,159.8 L358.9,161.5 L360.9,163.3 L362.8,165.0 L364.6,166.6 L366.2,168.3 L367.8,170.0 L369.1,171.6 L370.2,173.2 L371.1,174.8 L371.7,176.4 L372.0,178.0 L372.0,179.6 L371.6,181.3 L371.0,183.1 L370.1,184.8 L369.1,186.6 L367.8,188.2 L366.4,189.9 L364.9,191.4 L363.2,192.8 L361.5,194.1 L359.8,195.1 L358.0,196.0 L356.2,196.6 L354.2,196.9 L352.0,196.9 L349.8,196.8 L347.4,196.6 L345.0,196.2 L342.5,195.9 L340.0,195.6 L337.5,195.4 L334.9,195.4 L332.4,195.6 L330.0,196.0 L327.6,196.7 L325.1,197.5 L322.6,198.6 L320.1,199.7 L317.6,200.9 L315.1,202.2 L312.6,203.6 L310.1,205.0 L307.5,206.3 L305.0,207.6 L302.5,208.9 L300.0,210.0 L297.5,211.1 L295.2,212.0 L292.9,213.0 L290.6,213.9 L288.3,214.8 L285.9,215.8 L283.6,216.7 L281.1,217.6 L278.6,218.6 L275.9,219.7 L273.0,220.8 L270.0,222.0 L266.8,223.3 L263.4,224.8 L259.9,226.3 L256.3,227.9 L252.6,229.6 L248.8,231.2 L244.9,232.9 L240.9,234.5 L237.0,236.1 L233.0,237.5 L229.0,238.8 L225.0,240.0 L221.0,241.1 L216.8,242.2 L212.6,243.2 L208.3,244.2 L204.0,245.1 L199.7,245.9 L195.4,246.7 L191.1,247.3 L186.9,247.7 L182.8,248.0 L178.8,248.1 L175.0,248.0 L171.3,247.7 L167.6,247.2 L164.0,246.6 L160.4,245.9 L157.0,244.9 L153.6,243.9 L150.2,242.7 L147.0,241.4 L143.9,239.9 L140.8,238.4 L137.8,236.7 L135.0,235.0 L132.2,233.1 L129.5,231.0 L126.9,228.8 L124.3,226.4 L121.9,224.0 L119.5,221.4 L117.2,218.7 L115.1,216.0 L113.1,213.2 L111.2,210.5 L109.5,207.7 L108.0,205.0 L106.6,202.2 L105.3,199.3 L104.2,196.3 L103.2,193.2 L102.3,190.1 L101.6,187.0 L101.0,183.9 L100.5,180.9 L100.1,178.0 L100.0,175.1 L99.9,172.5 L100.0,170.0 L100.2,167.6 L100.6,165.3 L101.1,163.0 L101.7,160.8 L102.5,158.7 L103.4,156.7 L104.5,154.8 L105.7,153.1 L107.1,151.5 L108.6,150.1 L110.2,149.0 L112.0,148.0 L114.0,147.4 L116.4,147.3 L119.0,147.6 L121.7,148.1 L124.7,148.8 L127.7,149.5 L130.8,150.2 L133.8,150.8 L136.8,151.2 L139.7,151.2 L142.5,150.9 Z"/>
+              </g>
+
+              <g class="organ" data-organ="empedu" tabindex="0" role="button" aria-label="Kantong empedu">
+                <ellipse class="organ-empedu" cx="185" cy="242" rx="9" ry="14"/>
+              </g>
+
+              <g class="organ" data-organ="lambung" tabindex="0" role="button" aria-label="Lambung">
+                <path class="organ-lambung" d="M345.0,258.0 L347.3,256.1 L349.6,253.9 L352.0,251.5 L354.4,248.9 L356.8,246.0 L359.2,243.1 L361.5,240.0 L363.8,236.9 L366.0,233.8 L368.1,230.8 L370.1,227.8 L372.0,225.0 L373.7,222.2 L375.3,219.3 L376.7,216.3 L378.0,213.3 L379.2,210.3 L380.4,207.3 L381.6,204.4 L382.8,201.6 L384.0,198.9 L385.2,196.4 L386.6,194.1 L388.0,192.0 L389.5,190.1 L391.1,188.2 L392.6,186.5 L394.2,184.9 L395.8,183.4 L397.5,182.1 L399.2,180.9 L400.9,179.9 L402.6,179.1 L404.4,178.5 L406.2,178.1 L408.0,178.0 L409.9,178.1 L411.9,178.5 L413.9,179.2 L416.0,180.0 L418.1,181.0 L420.2,182.2 L422.4,183.6 L424.4,185.1 L426.5,186.7 L428.4,188.4 L430.3,190.2 L432.0,192.0 L433.6,193.9 L435.2,196.0 L436.8,198.2 L438.2,200.6 L439.6,203.1 L441.0,205.6 L442.3,208.3 L443.6,211.0 L444.8,213.7 L445.9,216.5 L447.0,219.2 L448.0,222.0 L449.0,224.8 L449.9,227.6 L450.8,230.5 L451.7,233.5 L452.5,236.5 L453.2,239.5 L453.9,242.6 L454.5,245.6 L455.0,248.7 L455.5,251.8 L455.8,254.9 L456.0,258.0 L456.1,261.1 L456.1,264.2 L456.1,267.4 L455.9,270.6 L455.7,273.8 L455.4,277.0 L455.0,280.2 L454.5,283.4 L454.0,286.6 L453.4,289.8 L452.7,292.9 L452.0,296.0 L451.2,299.1 L450.4,302.2 L449.4,305.3 L448.4,308.4 L447.4,311.5 L446.2,314.6 L445.0,317.7 L443.8,320.7 L442.4,323.6 L441.0,326.5 L439.5,329.3 L438.0,332.0 L436.4,334.6 L434.6,337.2 L432.8,339.8 L431.0,342.3 L429.0,344.7 L427.0,347.1 L424.9,349.4 L422.8,351.7 L420.7,353.9 L418.5,356.0 L416.2,358.0 L414.0,360.0 L411.7,361.9 L409.4,363.7 L407.0,365.5 L404.5,367.2 L402.0,368.8 L399.5,370.4 L396.9,371.9 L394.4,373.3 L391.8,374.6 L389.2,375.8 L386.6,377.0 L384.0,378.0 L381.4,379.0 L378.8,379.8 L376.1,380.6 L373.4,381.3 L370.7,382.0 L368.0,382.5 L365.3,383.0 L362.6,383.3 L359.9,383.6 L357.2,383.8 L354.6,384.0 L352.0,384.0 L349.4,384.0 L346.8,383.8 L344.2,383.6 L341.6,383.3 L339.1,382.9 L336.5,382.4 L334.0,381.8 L331.5,381.2 L329.0,380.5 L326.6,379.7 L324.3,378.9 L322.0,378.0 L319.7,377.0 L317.5,376.0 L315.2,374.8 L313.0,373.6 L310.9,372.3 L308.8,371.0 L306.7,369.6 L304.7,368.1 L302.9,366.7 L301.1,365.1 L299.5,363.6 L298.0,362.0 L296.6,360.4 L295.4,358.8 L294.2,357.1 L293.1,355.3 L292.1,353.6 L291.2,351.8 L290.5,349.9 L289.8,348.0 L289.2,346.1 L288.7,344.1 L288.3,342.1 L288.0,340.0 L287.8,337.9 L287.8,335.7 L287.9,333.4 L288.1,331.0 L288.4,328.7 L288.8,326.2 L289.2,323.8 L289.7,321.4 L290.2,319.0 L290.8,316.6 L291.4,314.3 L292.0,312.0 L292.6,309.7 L293.2,307.5 L293.9,305.2 L294.7,303.0 L295.4,300.7 L296.2,298.5 L297.1,296.3 L298.0,294.1 L298.9,292.0 L299.9,290.0 L300.9,288.0 L302.0,286.0 L303.1,284.1 L304.2,282.2 L305.3,280.3 L306.5,278.4 L307.7,276.6 L308.9,274.9 L310.2,273.2 L311.6,271.6 L313.1,270.0 L314.6,268.6 L316.3,267.2 L318.0,266.0 L319.9,265.0 L321.9,264.3 L324.0,263.7 L326.2,263.4 L328.5,263.1 L330.8,262.8 L333.2,262.5 L335.6,262.1 L338.0,261.5 L340.4,260.6 L342.7,259.5 Z"/>
+              </g>
+
+              <g class="organ" data-organ="pankreas" tabindex="0" role="button" aria-label="Pankreas">
+                <path class="organ-pankreas" d="M255,385 C275,375 300,372 300,388 C330,378 370,378 400,385 C420,390 435,388 438,396 C435,404 415,406 395,402 C370,398 340,394 315,398 C295,401 275,404 262,398 C252,394 248,390 255,385 Z"/>
+              </g>
+
+              <g class="organ" data-organ="usushalus" tabindex="0" role="button" aria-label="Usus halus">
+                <path class="organ-usushalus" d="M269.9,387.5 L261.9,387.6 L250.5,387.6 L236.7,387.6 L221.5,387.6 L205.9,387.7 L191.0,388.0 L177.7,388.5 L166.8,389.4 L158.2,390.9 L149.7,397.2 L149.0,409.4 L153.6,415.8 L159.0,420.2 L165.1,424.0 L171.7,427.4 L178.5,430.1 L185.3,432.0 L192.5,432.6 L199.7,430.8 L205.6,427.5 L210.7,423.5 L215.4,419.3 L219.7,415.2 L223.7,411.7 L226.9,409.1 L228.9,407.9 L228.5,407.8 L226.8,407.5 L226.8,407.7 L228.2,409.5 L230.2,412.6 L232.5,416.4 L235.1,420.7 L238.5,425.1 L243.6,429.3 L251.3,431.6 L258.8,430.2 L264.3,427.0 L268.7,423.4 L272.6,419.6 L276.2,416.0 L279.4,412.8 L282.0,410.7 L283.4,409.8 L282.8,409.8 L281.8,409.7 L282.6,410.3 L284.6,412.4 L287.2,415.5 L290.3,419.3 L293.8,423.4 L298.1,427.4 L303.9,430.9 L311.4,432.5 L318.7,431.2 L324.7,428.4 L329.8,424.9 L334.6,421.1 L339.0,417.4 L343.0,414.2 L346.4,411.7 L348.7,410.5 L349.1,410.3 L348.6,410.3 L349.2,410.7 L351.0,412.3 L353.3,414.8 L356.1,418.0 L359.4,421.6 L363.4,425.2 L368.9,428.3 L376.4,429.5 L383.4,427.6 L388.9,424.3 L393.6,420.4 L397.9,416.4 L401.8,412.4 L405.2,409.0 L407.8,406.7 L408.4,406.1 L403.2,406.5 L398.0,402.9 L397.6,402.2 L397.8,403.9 L397.8,406.9 L397.5,410.5 L396.9,414.3 L396.1,417.7 L395.2,420.3 L394.5,421.8 L393.6,423.0 L392.0,424.6 L389.9,426.2 L387.6,427.8 L385.0,429.2 L382.5,430.3 L380.0,431.1 L377.9,431.5 L376.6,431.6 L376.0,431.5 L374.4,430.6 L371.8,428.8 L368.7,426.3 L365.1,423.4 L361.1,420.3 L356.5,417.3 L350.9,414.9 L344.1,414.0 L337.4,415.3 L331.9,418.1 L327.4,421.3 L323.4,424.6 L319.9,427.8 L316.8,430.4 L314.3,432.1 L312.9,432.9 L312.9,432.9 L312.9,432.9 L311.4,432.0 L308.8,430.0 L305.7,427.2 L302.3,423.8 L298.4,420.3 L294.0,416.9 L288.6,413.9 L281.7,412.5 L274.6,413.7 L269.2,416.7 L265.0,420.1 L261.5,423.7 L258.4,426.9 L255.8,429.7 L253.7,431.5 L252.8,432.2 L253.2,432.2 L253.7,432.1 L252.8,431.7 L250.8,430.3 L248.1,428.2 L245.0,425.5 L241.5,422.6 L237.4,419.7 L232.3,417.2 L226.1,415.9 L219.8,416.7 L214.7,418.8 L210.6,421.3 L207.1,423.9 L204.2,426.3 L201.6,428.1 L199.7,429.3 L198.4,429.8 L198.0,429.9 L196.6,429.7 L193.7,428.5 L189.8,426.5 L185.5,424.0 L180.9,421.2 L176.4,418.5 L171.8,416.1 L166.5,414.2 L158.8,414.4 L151.9,419.6 L149.3,425.2 L148.6,430.3 L148.7,435.1 L149.3,439.9 L150.4,444.7 L151.9,449.4 L153.9,454.0 L156.4,458.1 L159.4,461.8 L162.8,465.1 L166.5,468.3 L170.6,471.2 L174.9,473.9 L179.5,476.3 L184.2,478.2 L189.1,479.6 L194.8,480.2 L201.0,479.2 L206.2,476.7 L210.3,473.7 L213.7,470.7 L216.6,467.9 L219.1,465.7 L221.0,464.2 L222.0,463.6 L221.9,463.6 L222.0,463.7 L223.3,464.2 L225.6,465.6 L228.5,467.8 L231.9,470.3 L235.9,473.1 L240.5,475.7 L246.0,477.8 L252.4,478.6 L258.7,477.8 L264.3,475.8 L269.2,473.3 L273.7,470.7 L277.9,468.1 L281.7,465.9 L285.0,464.2 L287.4,463.3 L288.8,463.0 L289.8,463.2 L291.5,463.8 L293.8,465.1 L296.7,466.9 L299.9,469.1 L303.5,471.6 L307.6,474.0 L312.5,476.0 L318.2,477.0 L324.1,476.5 L329.1,474.8 L333.1,472.6 L336.5,470.4 L339.3,468.4 L341.7,466.8 L343.5,465.8 L344.6,465.3 L345.2,465.2 L346.1,465.4 L348.2,466.2 L351.0,467.6 L354.4,469.6 L358.1,471.8 L362.2,474.2 L366.7,476.3 L371.9,478.0 L378.0,478.6 L384.1,477.5 L389.3,475.2 L393.7,472.4 L397.6,469.5 L401.0,466.8 L403.7,464.6 L405.6,463.2 L405.6,463.1 L401.3,463.2 L397.3,461.0 L396.5,459.8 L396.6,460.1 L396.8,461.2 L396.8,462.9 L396.5,464.7 L396.0,466.5 L395.3,468.1 L394.2,469.7 L392.0,472.0 L388.7,475.2 L384.7,478.7 L380.2,482.3 L375.5,485.6 L370.9,488.5 L366.6,490.7 L363.0,492.0 L361.0,492.5 L360.1,492.3 L358.1,491.3 L355.1,489.0 L351.5,485.8 L347.5,481.9 L343.1,477.9 L338.0,473.9 L331.9,470.6 L324.3,469.1 L316.7,470.3 L310.5,473.4 L305.5,477.1 L301.1,480.9 L297.1,484.6 L293.5,487.7 L290.5,490.0 L288.4,491.1 L287.3,491.4 L286.1,491.2 L283.6,490.1 L280.1,487.9 L275.9,484.9 L271.2,481.4 L266.0,477.8 L260.3,474.5 L253.6,472.0 L245.8,471.0 L238.2,472.4 L231.4,475.3 L225.5,478.9 L219.9,482.8 L214.8,486.6 L210.2,489.9 L206.2,492.3 L203.2,493.6 L201.8,493.9 L200.4,493.5 L197.5,492.1 L193.8,489.4 L189.6,485.8 L185.4,481.9 L181.1,477.9 L176.9,474.1 L172.0,470.8 L164.1,469.1 L155.5,473.1 L151.9,478.8 L150.5,484.0 L150.0,489.2 L150.0,494.4 L150.5,499.6 L151.5,504.6 L152.9,509.5 L155.1,514.1 L158.1,518.0 L161.4,521.2 L165.0,524.0 L169.0,526.4 L173.2,528.5 L177.6,530.2 L182.1,531.6 L186.8,532.4 L192.0,532.7 L197.6,532.0 L202.9,530.2 L207.4,527.9 L211.6,525.6 L215.4,523.3 L218.8,521.4 L221.7,520.0 L223.8,519.4 L224.9,519.2 L226.0,519.4 L228.0,520.3 L230.8,522.0 L234.1,524.3 L237.7,526.9 L241.7,529.7 L246.2,532.4 L251.6,534.5 L258.1,535.2 L264.8,533.6 L269.9,530.6 L273.8,527.1 L277.0,523.7 L279.6,520.6 L281.9,518.2 L283.5,516.7 L284.0,516.3 L283.2,516.4 L282.7,516.4 L283.8,517.1 L286.2,518.9 L289.2,521.7 L292.7,524.9 L296.7,528.3 L301.3,531.6 L307.1,534.3 L314.1,535.4 L321.0,534.0 L326.7,531.4 L331.7,528.1 L336.2,524.6 L340.3,521.2 L344.0,518.3 L347.1,516.1 L349.2,514.9 L349.4,514.8 L348.7,514.8 L348.8,514.9 L349.9,515.9 L351.8,517.9 L354.1,520.6 L356.9,523.7 L360.5,527.0 L365.5,530.0 L372.1,531.4 L378.5,530.6 L383.8,528.5 L388.5,525.9 L392.9,523.1 L396.8,520.5 L400.1,518.3 L402.6,516.8 L403.0,516.6 L399.7,516.4 L396.6,514.4 L396.1,513.8 L396.4,514.8 L396.7,516.7 L396.9,519.2 L396.7,521.8 L396.3,524.2 L395.8,526.0 L395.3,527.1 L394.3,528.3 L392.4,530.3 L389.9,532.5 L386.9,534.7 L383.8,536.7 L380.7,538.4 L377.7,539.6 L375.4,540.3 L374.3,540.6 L374.1,540.5 L373.0,539.9 L370.9,538.4 L368.1,536.0 L365.0,533.1 L361.4,530.1 L357.2,527.0 L352.0,524.5 L345.3,523.4 L338.6,524.7 L333.5,527.6 L329.5,530.9 L326.3,534.1 L323.5,537.1 L321.0,539.5 L319.1,541.1 L318.1,541.7 L318.1,541.8 L317.7,541.6 L315.8,540.9 L312.9,539.4 L309.4,537.1 L305.5,534.5 L301.2,531.8 L296.4,529.2 L291.0,527.1 L284.6,526.2 L278.2,527.2 L272.9,529.5 L268.6,532.3 L265.0,535.2 L261.8,537.9 L259.2,540.1 L257.1,541.5 L256.1,542.1 L256.1,542.1 L256.1,542.1 L255.1,541.5 L253.1,540.2 L250.5,538.2 L247.4,535.7 L243.9,532.9 L239.7,530.2 L234.6,527.9 L228.5,526.7 L222.5,527.1 L217.2,528.5 L212.4,530.4 L208.0,532.5 L204.0,534.6 L200.4,536.3 L197.4,537.6 L195.1,538.3 L194.0,538.4 L193.0,538.2 L191.0,537.4 L188.3,535.8 L185.2,533.8 L181.9,531.4 L178.4,529.0 L174.5,526.7 L169.4,524.8 L162.1,525.1 L156.1,528.9 L153.0,533.3 L151.1,537.7 L150.0,542.1 L149.4,546.6 L149.2,551.2 L149.5,555.8 L150.3,560.4 L151.9,564.9 L154.3,568.9 L157.1,572.4 L160.3,575.7 L163.9,578.8 L167.7,581.6 L171.8,584.1 L176.2,586.2 L180.9,587.7 L186.6,588.3 L192.9,587.0 L197.9,584.2 L201.7,581.0 L204.9,577.9 L207.7,575.0 L210.0,572.7 L211.8,571.3 L212.3,571.0 L211.3,571.0 L210.8,571.0 L212.1,571.8 L214.5,573.8 L217.4,576.7 L220.7,579.9 L224.2,583.4 L228.1,586.7 L232.9,589.7 L239.7,591.4 L247.1,589.7 L252.1,586.0 L255.1,582.1 L257.4,578.5 L259.2,575.3 L260.7,572.8 L261.6,571.5 L261.2,571.7 L258.6,572.4 L256.9,572.2 L257.5,572.6 L259.5,574.2 L262.0,576.6 L265.0,579.4 L268.4,582.5 L272.1,585.5 L276.8,588.3 L282.9,589.9 L289.4,589.1 L294.4,586.7 L298.0,583.9 L300.8,581.2 L303.1,578.9 L304.9,577.1 L306.1,576.1 L306.4,575.9 L305.8,576.0 L306.1,576.1 L307.8,576.9 L310.6,578.5 L314.0,580.6 L317.7,583.1 L321.8,585.7 L326.3,588.1 L331.5,589.9 L338.0,590.5 L344.5,588.5 L349.3,585.0 L352.6,581.3 L355.2,577.7 L357.3,574.5 L359.0,572.0 L360.1,570.7 L359.8,570.8 L357.1,571.4 L354.5,570.9 L354.4,571.0 L355.7,572.3 L357.6,574.7 L359.9,577.7 L362.6,581.1 L365.9,584.5 L370.4,587.7 L376.8,589.7 L383.3,589.1 L388.4,587.1 L392.6,584.5 L396.3,581.9 L399.6,579.3 L402.4,577.2 L404.4,575.8 L404.7,575.5 L401.6,575.8 L398.3,574.5 L397.6,573.8 L397.7,574.0 L398.0,574.8 L398.2,575.8 L398.2,576.8 L398.1,577.5 L398.0,577.7 L397.8,578.0 L396.2,579.3 L393.2,581.4 L389.4,583.8 L385.0,586.2 L380.2,588.5 L375.4,590.4 L370.8,592.0 L366.7,593.0 L363.8,593.3 L361.7,593.1 L359.3,592.3 L356.1,590.6 L352.4,588.2 L348.2,585.5 L343.4,582.6 L338.0,579.9 L331.8,577.9 L324.6,577.3 L317.5,578.5 L311.2,581.1 L305.5,584.2 L300.2,587.5 L295.3,590.8 L290.8,593.6 L286.9,595.7 L283.8,596.8 L282.0,597.1 L280.4,596.8 L277.9,595.6 L274.6,593.4 L270.8,590.4 L266.6,586.9 L262.0,583.3 L256.8,579.8 L250.8,576.9 L243.5,575.7 L236.1,576.9 L230.0,579.8 L225.2,583.4 L221.0,587.1 L217.3,590.5 L214.1,593.4 L211.3,595.4 L209.4,596.3 L208.3,596.6 L205.9,596.1 L201.4,594.6 L195.9,592.0 L189.9,588.8 L183.9,585.4 L178.4,582.2 L173.7,579.4 L169.6,577.2 L156.0,579.5 L157.5,595.3 L161.3,598.3 L166.0,601.6 L171.5,605.5 L177.3,609.5 L182.9,613.5 L187.5,617.1 L190.5,619.7 L190.5,619.5 L190.1,613.9 L192.2,610.4 L192.5,610.1 L190.9,610.7 L188.4,611.3 L185.3,611.9 L182.2,612.6 L179.0,613.3 L176.0,614.3 L173.8,615.4 L172.4,616.3 L170.6,617.7 L168.1,621.3 L167.8,628.9 L170.6,633.3 L171.0,633.7 L167.7,628.0 L167.7,628.1 L188.3,623.9 L188.3,623.8 L184.9,618.0 L185.1,618.2 L187.8,622.4 L187.4,629.7 L185.2,632.8 L184.2,633.6 L184.1,633.7 L184.0,633.7 L184.5,633.6 L186.4,633.1 L189.5,632.5 L193.1,631.8 L197.0,630.8 L201.2,629.3 L205.8,626.5 L210.2,619.9 L209.5,610.5 L205.5,605.1 L200.9,600.9 L195.4,596.7 L189.5,592.4 L183.5,588.2 L178.1,584.5 L173.9,581.4 L171.8,579.9 L171.8,593.4 L161.1,596.4 L163.3,597.6 L167.7,600.2 L173.3,603.6 L179.7,607.2 L186.6,610.9 L193.6,614.1 L200.8,616.5 L208.3,617.6 L215.8,616.3 L222.0,613.4 L227.1,609.8 L231.4,606.1 L235.2,602.6 L238.4,599.7 L241.1,597.7 L242.7,596.8 L243.3,596.7 L244.2,596.9 L246.3,598.0 L249.5,600.1 L253.3,603.2 L257.6,606.7 L262.3,610.5 L267.7,614.0 L274.1,616.8 L281.5,618.1 L288.9,617.2 L295.4,614.8 L301.2,611.8 L306.6,608.5 L311.6,605.2 L316.2,602.3 L320.2,600.0 L323.5,598.7 L325.7,598.2 L327.5,598.4 L330.0,599.3 L333.2,600.9 L336.9,603.2 L341.1,605.9 L345.7,608.8 L351.0,611.6 L357.2,613.6 L363.9,614.3 L370.4,613.6 L376.6,612.2 L382.8,610.1 L388.8,607.7 L394.5,604.9 L399.9,602.0 L404.8,599.0 L409.0,596.0 L412.9,592.6 L416.2,588.2 L418.3,583.2 L419.2,578.3 L419.1,573.6 L418.2,569.2 L416.7,565.1 L414.4,561.3 L411.0,557.7 L404.7,555.0 L397.9,555.7 L393.5,557.8 L390.0,560.2 L386.8,562.7 L383.8,565.0 L381.0,567.0 L378.8,568.4 L377.8,568.8 L378.8,568.8 L380.2,569.2 L379.8,568.8 L378.4,567.3 L376.4,564.8 L374.2,561.8 L371.5,558.6 L368.3,555.2 L363.7,552.0 L356.7,550.4 L349.6,552.4 L345.1,555.9 L342.2,559.5 L339.8,562.8 L337.9,565.8 L336.1,568.2 L334.9,569.6 L334.8,569.9 L335.9,569.6 L336.4,569.5 L335.0,569.0 L332.4,567.6 L329.2,565.5 L325.5,563.1 L321.5,560.5 L317.1,558.0 L312.1,556.0 L306.1,555.0 L299.9,556.0 L294.9,558.4 L291.2,561.3 L288.3,564.0 L286.0,566.4 L284.2,568.2 L283.1,569.0 L283.3,569.1 L284.7,569.0 L285.3,569.1 L284.2,568.4 L282.1,566.6 L279.4,564.2 L276.4,561.3 L273.1,558.2 L269.3,555.3 L264.5,552.6 L257.7,551.4 L250.6,553.6 L246.1,557.4 L243.2,561.2 L241.1,564.7 L239.3,567.8 L237.9,570.2 L237.1,571.3 L237.7,570.9 L240.3,570.4 L241.7,570.6 L240.7,569.9 L238.4,567.9 L235.5,565.1 L232.1,561.7 L228.4,558.2 L224.3,554.8 L219.2,551.8 L212.5,550.1 L205.6,551.1 L200.3,553.7 L196.2,556.9 L192.9,560.1 L190.0,563.1 L187.5,565.5 L185.7,567.1 L185.1,567.5 L185.8,567.4 L185.6,567.2 L184.0,566.7 L181.8,565.7 L179.4,564.2 L177.0,562.4 L174.7,560.4 L172.8,558.5 L171.5,556.8 L170.9,555.9 L170.6,555.0 L170.3,553.3 L170.2,551.0 L170.3,548.5 L170.6,546.1 L171.1,544.2 L171.5,543.2 L171.2,543.6 L168.5,545.1 L165.2,545.4 L165.1,545.4 L166.9,546.6 L169.8,548.6 L173.3,551.0 L177.3,553.7 L181.8,556.3 L187.1,558.4 L193.1,559.4 L199.1,558.9 L204.4,557.4 L209.1,555.4 L213.4,553.3 L217.4,551.3 L220.9,549.6 L223.9,548.4 L226.1,547.8 L227.2,547.6 L228.0,547.8 L229.5,548.5 L231.7,550.0 L234.3,552.1 L237.4,554.6 L240.9,557.3 L245.0,560.0 L250.1,562.2 L256.4,563.1 L262.6,562.0 L267.7,559.6 L271.8,556.8 L275.3,554.0 L278.3,551.4 L281.0,549.3 L283.0,547.9 L284.3,547.3 L284.7,547.2 L285.5,547.4 L287.5,548.2 L290.5,549.8 L294.0,552.1 L298.0,554.7 L302.3,557.5 L307.1,560.0 L312.6,562.0 L319.1,562.7 L325.7,561.3 L331.0,558.4 L335.0,555.1 L338.4,551.8 L341.3,548.8 L343.8,546.3 L345.6,544.8 L346.3,544.3 L345.7,544.3 L345.2,544.3 L346.2,544.9 L348.3,546.5 L351.1,548.9 L354.3,551.8 L358.0,554.9 L362.3,558.0 L367.7,560.5 L374.0,561.6 L379.8,560.9 L384.9,559.4 L389.8,557.3 L394.5,554.8 L398.9,551.9 L403.0,548.8 L406.8,545.5 L410.2,542.1 L413.1,538.2 L415.4,533.6 L416.8,528.8 L417.6,524.0 L417.9,519.2 L417.6,514.5 L416.8,509.9 L415.3,505.3 L412.3,500.6 L406.0,496.3 L398.4,496.1 L393.3,498.0 L389.1,500.4 L385.1,503.0 L381.3,505.6 L377.8,507.9 L374.7,509.6 L372.8,510.4 L372.8,510.5 L373.6,510.6 L373.3,510.3 L371.9,509.0 L369.9,506.7 L367.4,503.9 L364.3,500.6 L360.3,497.4 L354.8,494.7 L347.9,493.9 L341.4,495.4 L336.0,498.2 L331.4,501.5 L327.1,504.9 L323.1,508.2 L319.4,511.0 L316.3,513.1 L314.2,514.2 L313.6,514.4 L313.4,514.3 L312.0,513.6 L309.7,511.8 L306.7,509.3 L303.4,506.2 L299.7,502.8 L295.4,499.6 L290.1,496.8 L283.3,495.4 L276.4,496.8 L271.1,499.8 L267.2,503.2 L264.0,506.6 L261.3,509.7 L259.0,512.2 L257.3,513.8 L256.6,514.3 L257.0,514.3 L257.0,514.2 L255.6,513.6 L253.1,512.1 L249.9,509.8 L246.3,507.2 L242.2,504.3 L237.5,501.6 L232.1,499.3 L225.8,498.2 L219.6,498.8 L214.1,500.5 L209.3,502.7 L204.9,505.1 L201.0,507.4 L197.6,509.4 L194.7,510.8 L192.6,511.6 L191.3,511.8 L189.5,511.6 L187.0,511.1 L184.4,510.4 L181.7,509.3 L179.2,508.1 L176.9,506.7 L175.1,505.3 L173.7,504.0 L173.1,503.2 L172.6,502.1 L171.9,499.7 L171.3,496.6 L171.0,493.3 L171.0,490.1 L171.2,487.6 L171.4,486.6 L170.4,487.9 L165.5,490.0 L162.5,489.6 L163.9,490.6 L167.0,493.4 L171.0,497.2 L175.7,501.5 L180.9,505.9 L186.7,510.0 L193.3,513.3 L201.2,514.9 L209.0,513.8 L215.7,511.0 L221.7,507.5 L227.1,503.6 L232.3,499.9 L237.0,496.5 L241.2,493.9 L244.5,492.5 L246.5,492.0 L248.3,492.3 L251.1,493.4 L254.8,495.6 L258.9,498.5 L263.5,501.9 L268.5,505.4 L274.0,508.7 L280.4,511.4 L287.9,512.4 L295.3,510.9 L301.5,507.8 L306.7,504.1 L311.1,500.2 L315.1,496.5 L318.7,493.4 L321.5,491.2 L323.4,490.3 L323.9,490.1 L324.4,490.3 L326.4,491.4 L329.4,493.8 L333.1,497.2 L337.2,501.2 L341.9,505.3 L347.2,509.2 L353.7,512.3 L361.3,513.5 L368.6,512.3 L375.0,509.9 L381.2,506.8 L387.2,503.1 L392.9,499.0 L398.1,494.8 L402.9,490.7 L407.0,486.7 L410.5,482.9 L413.5,478.6 L415.7,473.8 L417.1,469.0 L417.7,464.3 L417.7,459.8 L417.1,455.5 L415.7,451.2 L412.8,446.8 L406.3,442.8 L398.7,443.2 L394.3,445.5 L390.9,448.0 L387.7,450.5 L384.7,453.0 L381.8,455.1 L379.3,456.7 L377.6,457.5 L377.1,457.6 L376.5,457.5 L374.7,456.9 L372.0,455.6 L368.7,453.7 L365.0,451.5 L361.0,449.2 L356.5,447.0 L351.5,445.1 L345.8,444.3 L339.9,444.9 L334.9,446.6 L330.9,448.8 L327.5,451.0 L324.6,453.0 L322.2,454.6 L320.5,455.6 L319.5,456.0 L319.1,456.1 L318.6,455.9 L317.1,455.3 L314.7,453.8 L311.8,451.8 L308.3,449.4 L304.4,446.9 L299.8,444.5 L294.4,442.7 L288.2,442.1 L282.0,443.0 L276.5,445.0 L271.6,447.5 L267.1,450.1 L262.9,452.7 L259.2,454.9 L255.9,456.5 L253.5,457.4 L252.3,457.6 L251.3,457.5 L249.6,456.8 L247.2,455.4 L244.2,453.3 L240.9,450.8 L237.2,448.1 L232.8,445.5 L227.6,443.4 L221.3,442.6 L214.9,443.9 L209.8,446.5 L205.7,449.5 L202.4,452.5 L199.5,455.2 L197.0,457.4 L195.2,458.8 L194.4,459.3 L194.4,459.2 L193.4,459.1 L191.1,458.4 L188.4,457.3 L185.4,455.7 L182.3,453.8 L179.4,451.7 L176.9,449.6 L174.8,447.5 L173.5,446.0 L172.6,444.5 L171.6,442.1 L170.7,439.2 L170.0,436.2 L169.6,433.5 L169.6,431.3 L169.7,430.5 L169.0,431.8 L165.1,434.5 L162.0,434.7 L163.0,435.2 L166.1,436.8 L170.1,439.2 L174.7,442.0 L179.8,444.9 L185.1,447.6 L190.8,449.8 L197.1,450.9 L203.5,450.2 L208.9,448.2 L213.3,445.6 L216.9,443.0 L220.0,440.5 L222.5,438.6 L224.4,437.4 L225.3,437.0 L225.2,436.9 L225.2,437.0 L226.5,437.7 L228.7,439.3 L231.5,441.6 L234.7,444.3 L238.4,447.2 L242.7,450.1 L248.0,452.4 L254.7,453.1 L261.3,451.4 L266.4,448.3 L270.4,444.8 L273.7,441.4 L276.6,438.2 L279.2,435.6 L281.1,434.0 L282.0,433.4 L281.3,433.5 L281.0,433.5 L282.3,434.3 L284.8,436.3 L287.9,439.1 L291.4,442.5 L295.3,446.1 L299.9,449.5 L305.4,452.5 L312.4,453.9 L319.4,452.9 L325.0,450.2 L329.6,447.0 L333.6,443.7 L337.2,440.5 L340.3,437.8 L342.9,435.9 L344.4,435.1 L344.7,435.0 L345.0,435.1 L346.5,435.8 L348.9,437.4 L352.0,439.8 L355.4,442.6 L359.3,445.7 L363.6,448.6 L368.8,451.2 L374.7,452.5 L380.2,452.4 L385.1,451.5 L389.8,450.0 L394.3,448.1 L398.5,445.8 L402.4,443.1 L406.1,440.1 L409.3,436.8 L412.3,433.0 L414.6,428.4 L416.3,423.4 L417.6,418.2 L418.4,413.0 L418.8,407.7 L418.7,402.7 L418.1,397.7 L416.0,392.1 L408.2,386.1 L399.1,387.3 L394.5,390.4 L390.7,393.9 L387.0,397.6 L383.3,401.3 L379.7,404.7 L376.6,407.2 L374.7,408.5 L374.9,408.5 L376.2,408.6 L375.9,408.3 L374.2,406.8 L371.8,404.1 L369.0,400.8 L365.5,397.1 L361.2,393.5 L355.4,390.4 L348.1,389.3 L341.0,390.9 L335.3,393.9 L330.3,397.4 L325.6,401.2 L321.3,404.8 L317.3,408.0 L314.0,410.3 L311.8,411.4 L311.6,411.5 L312.0,411.6 L311.1,410.9 L309.0,408.9 L306.4,405.9 L303.4,402.2 L300.1,398.2 L296.0,394.2 L290.5,390.6 L283.1,388.8 L275.7,390.3 L270.0,393.4 L265.4,397.1 L261.4,401.0 L257.8,404.7 L254.6,407.8 L252.0,410.0 L250.9,410.8 L252.1,410.7 L254.1,411.1 L253.9,410.9 L252.5,408.9 L250.5,405.6 L248.1,401.6 L245.3,397.2 L241.6,392.7 L236.0,388.6 L228.1,386.8 L220.7,388.5 L214.9,391.8 L210.0,395.7 L205.5,399.8 L201.2,403.8 L197.2,407.4 L193.8,410.1 L191.5,411.5 L191.0,411.7 L189.4,411.4 L185.3,410.2 L180.4,408.2 L175.3,405.7 L171.1,403.1 L168.4,400.9 L168.4,401.2 L167.5,408.3 L164.6,411.0 L169.1,410.2 L178.8,409.5 L191.6,409.0 L206.2,408.7 L221.6,408.6 L236.7,408.6 L250.5,408.6 L262.0,408.6 L270.1,408.5 Z"/>
+              </g>
+
+              <g class="organ" data-organ="ususbesar" tabindex="0" role="button" aria-label="Usus besar">
+                <path class="organ-ususbesar" d="M182.0,634.5 L183.9,632.8 L185.9,630.8 L187.5,628.6 L188.3,626.3 L187.7,623.7 L185.7,621.1 L182.5,618.3 L178.8,615.4 L175.9,612.3 L174.8,609.0 L176.1,605.6 L179.4,602.1 L183.4,598.5 L186.5,594.8 L187.3,591.2 L185.2,587.6 L181.2,584.0 L177.0,580.5 L174.3,577.0 L174.2,573.4 L176.7,569.8 L180.6,566.2 L184.2,562.7 L186.3,559.4 L186.1,556.1 L183.7,552.9 L179.8,549.6 L175.9,546.4 L173.4,543.1 L173.2,539.7 L175.3,536.2 L179.0,532.6 L182.8,529.0 L185.1,525.5 L185.0,522.1 L182.5,518.7 L178.5,515.4 L174.6,512.2 L172.2,508.8 L172.2,505.5 L174.5,502.1 L178.2,498.7 L181.9,495.4 L184.2,492.2 L184.4,489.0 L182.5,486.0 L179.2,483.0 L175.6,480.0 L172.8,476.9 L171.5,473.9 L172.2,470.8 L174.7,467.8 L178.2,464.7 L181.6,461.7 L183.8,458.7 L184.3,455.8 L182.9,452.9 L180.1,450.0 L176.7,447.2 L173.7,444.4 L171.8,441.6 L171.6,438.9 L173.0,436.3 L175.6,433.9 L178.7,431.7 L181.7,429.5 L184.0,427.6 L185.2,425.7 L185.2,423.8 L184.3,422.0 L182.7,420.1 L180.7,418.2 L178.8,416.3 L177.1,414.4 L175.9,412.6 L175.2,411.0 L175.1,409.7 L175.5,408.5 L176.3,407.7 L177.4,407.0 L178.8,406.7 L180.3,406.5 L181.8,406.6 L183.3,406.8 L184.8,407.2 L186.1,407.6 L187.2,408.0 L188.1,408.3 L188.9,408.6 L189.5,408.7 L190.0,408.6 L190.3,408.3 L190.5,407.6 L190.6,406.7 L190.7,405.6 L190.7,404.1 L190.7,402.4 L190.6,400.8 L190.5,399.2 L190.3,397.7 L190.2,396.4 L190.2,395.2 L190.2,394.1 L190.4,393.2 L190.8,392.4 L191.3,391.9 L191.9,391.6 L192.7,391.6 L193.7,391.9 L194.8,392.5 L196.1,393.5 L197.4,394.8 L198.9,396.4 L200.5,398.1 L202.2,399.7 L204.0,401.1 L205.8,401.9 L207.7,401.8 L209.7,400.5 L211.8,398.2 L213.9,395.0 L216.3,391.6 L219.0,388.8 L222.1,387.8 L225.3,389.1 L228.8,392.4 L232.4,396.5 L236.0,399.7 L239.8,400.2 L243.5,397.7 L247.4,393.2 L251.4,389.0 L255.4,387.3 L259.5,389.2 L263.6,393.7 L267.7,398.2 L271.9,400.4 L276.0,398.9 L280.1,394.6 L284.3,390.0 L288.3,387.6 L292.3,388.4 L296.2,392.1 L300.0,396.5 L303.8,399.8 L307.8,400.3 L311.8,397.6 L315.8,392.9 L319.9,388.8 L324.0,387.4 L328.1,389.7 L332.3,394.3 L336.5,398.7 L340.6,400.3 L344.7,398.4 L348.7,393.9 L352.7,389.5 L356.7,387.4 L360.5,388.5 L364.2,392.3 L367.7,396.7 L371.1,399.8 L374.4,400.6 L377.6,399.0 L380.7,395.9 L383.7,392.5 L386.5,389.9 L389.0,388.6 L391.3,388.8 L393.3,390.1 L395.0,392.1 L396.4,394.5 L397.6,396.9 L398.5,399.0 L399.3,400.7 L399.9,402.0 L400.4,402.9 L400.8,403.3 L401.2,403.4 L401.5,403.2 L401.8,402.7 L402.3,402.1 L402.8,401.4 L403.4,400.7 L404.2,399.9 L405.1,399.2 L406.2,398.5 L407.4,398.0 L408.8,397.5 L410.1,397.2 L411.6,397.1 L413.0,397.1 L414.2,397.3 L415.2,397.7 L416.0,398.2 L416.5,398.9 L416.9,399.7 L417.0,400.6 L416.9,401.5 L416.6,402.5 L416.2,403.4 L415.5,404.4 L414.8,405.3 L413.9,406.1 L413.0,406.9 L412.0,407.6 L411.2,408.3 L410.4,409.0 L409.8,409.6 L409.5,410.2 L409.6,410.8 L410.2,411.5 L411.3,412.2 L412.9,413.0 L415.0,413.9 L417.5,415.0 L420.1,416.2 L422.4,417.7 L424.1,419.6 L424.7,421.7 L424.0,424.1 L422.0,426.7 L419.1,429.4 L416.1,432.2 L413.7,435.0 L412.7,437.8 L413.5,440.5 L416.1,443.4 L419.7,446.3 L423.2,449.2 L425.6,452.2 L426.0,455.4 L424.4,458.5 L421.1,461.7 L417.5,464.9 L414.6,468.1 L413.4,471.2 L414.2,474.3 L416.9,477.4 L420.4,480.3 L423.8,483.3 L426.1,486.3 L426.6,489.4 L425.0,492.5 L421.8,495.7 L418.1,499.0 L415.1,502.2 L414.0,505.4 L415.1,508.6 L418.0,511.7 L421.9,514.9 L425.3,518.1 L427.0,521.3 L426.6,524.5 L424.1,527.6 L420.4,530.7 L416.8,533.8 L414.5,536.8 L414.1,539.8 L415.7,542.7 L418.7,545.7 L422.1,548.7 L424.9,551.6 L426.4,554.5 L426.1,557.2 L424.1,559.8 L421.1,562.4 L417.6,564.8 L414.6,567.2 L412.8,569.7 L412.4,572.2 L413.6,574.9 L415.9,577.6 L418.7,580.4 L421.3,583.2 L423.1,585.9 L423.7,588.4 L422.9,590.8 L420.9,592.9 L418.0,594.9 L414.9,596.7 L412.0,598.5 L409.8,600.3 L408.6,602.2 L408.5,604.3 L409.5,606.5 L411.1,608.9 L413.2,611.3 L415.2,613.8 L416.8,616.2 L417.8,618.5 L417.9,620.5 L417.2,622.3 L415.6,623.8 L413.5,625.1 L410.9,626.2 L408.3,627.1 L405.8,628.0 L403.7,628.9 L402.1,629.9 L401.2,631.0 L400.9,632.3 L401.2,633.8 L401.9,635.5 L402.9,637.3 L404.1,639.2 L405.3,641.2 L406.2,643.1 L406.9,644.9 L407.2,646.4 L407.1,647.8 L406.5,648.8 L405.6,649.4 L404.3,649.7 L402.8,649.7 L401.0,649.4 L399.2,648.9 L397.4,648.2 L395.6,647.5 L394.1,646.9 L392.7,646.3 L391.6,646.0 L390.8,646.0 L390.2,646.3 L389.8,647.0 L389.5,648.0 L389.4,649.3 L389.3,650.8 L389.2,652.4 L389.0,654.2 L388.8,655.9 L388.5,657.5 L388.0,658.9 L387.5,660.1 L386.8,661.0 L386.2,661.5 L385.5,661.8 L384.8,661.6 L384.1,661.2 L383.4,660.4 L382.7,659.3 L382.1,658.0 L381.5,656.5 L381.0,654.9 L380.5,653.2 L380.1,651.7 L379.7,650.3 L379.3,649.2 L378.8,648.4 L378.3,647.8 L377.6,647.6 L376.8,647.7 L375.9,648.1 L374.8,648.7 L373.6,649.4 L372.4,650.3 L371.1,651.2 L369.8,652.0 L368.5,652.8 L367.4,653.5 L366.5,654.1 L365.8,654.6 L365.0,654.8 L364.4,654.8 L363.8,654.6 L363.5,654.1 L363.3,653.4 L363.3,652.5 L363.4,651.4 L363.8,650.2 L364.3,648.9 L364.9,647.6 L365.5,646.1 L366.1,644.6 L366.7,643.1 L367.1,641.6 L367.4,640.0 L367.5,638.5 L367.3,637.0 L366.9,635.5 L366.1,634.1 L365.1,632.7 L363.8,631.4 L362.5,630.5 L361.5,630.2 L360.6,630.3 L359.5,630.4 L358.2,630.4 L356.8,630.4 L355.4,630.4 L353.9,630.3 L352.4,630.1 L351.0,629.9 L349.6,629.6 L348.3,629.2 L347.0,628.7 L345.9,628.1 L344.8,627.4 L343.9,626.6 L343.0,625.7 L342.1,624.6 L341.2,623.5 L340.3,622.2 L339.3,620.9 L338.2,619.5 L336.9,618.0 L335.4,616.5 L333.8,615.0 L332.2,613.6 L330.6,612.2 L329.0,610.9 L327.2,609.7 L325.5,608.7 L323.7,607.8 L321.8,607.1 L320.0,606.7 L318.2,606.5 L316.4,606.7 L314.7,607.2 L313.1,608.0 L311.6,609.1 L310.2,610.4 L309.0,612.0 L307.8,613.7 L306.7,615.5 L305.7,617.3 L304.7,619.1 L303.8,620.8 L302.9,622.3 L301.9,623.7 L300.9,624.8 L299.8,625.8 L298.5,626.7 L297.0,627.4 L295.4,627.9 L293.7,628.4 L291.9,628.6 L289.9,628.8 L287.8,628.9 L285.7,629.0 L283.6,629.1 L281.5,629.3 L279.5,629.6 L277.8,630.0 L276.3,630.5 L275.1,631.3 L274.2,632.1 L273.5,633.2 L273.2,634.4 L273.2,635.7 L273.3,637.1 L273.6,638.6 L274.0,640.1 L274.5,641.5 L274.9,642.9 L275.4,644.1 L275.8,645.2 L276.1,646.2 L276.1,647.2 L275.9,648.1 L275.4,648.8 L274.7,649.3 L273.9,649.6 L272.9,649.7 L271.7,649.7 L270.4,649.4 L269.0,649.1 L267.5,648.7 L265.9,648.4 L264.1,648.1 L262.2,648.0 L260.2,648.1 L258.0,648.6 L255.7,649.6 L253.3,651.0 L250.8,653.2 L248.5,656.0 L246.6,659.6 L245.3,663.7 L244.7,668.1 L244.9,672.3 L245.6,675.9 L246.8,678.9 L248.2,681.2 L249.8,683.1 L251.7,684.6 L253.7,685.7 L255.9,686.5 L258.1,687.0 L260.4,687.3 L262.6,687.6 L264.8,687.9 L266.7,688.2 L268.4,688.8 L269.7,689.5 L270.8,690.5 L271.5,691.8 L272.0,693.2 L272.2,694.9 L272.3,696.6 L272.1,698.3 L271.9,699.9 L271.7,701.5 L271.5,702.9 L271.6,704.5 L271.9,706.1 L272.3,707.6 L272.8,709.0 L273.4,710.3 L274.1,711.4 L274.9,712.4 L275.8,713.2 L276.7,713.9 L277.7,714.4 L278.7,714.8 L279.7,715.0 L280.7,715.1 L281.7,715.2 L282.7,715.1 L283.7,715.0 L284.5,714.8 L285.4,714.6 L286.1,714.3 L286.8,714.1 L287.3,713.8 L287.8,713.4 L288.1,713.1 L288.6,712.9 L307.4,687.1 L307.3,686.5 L307.0,685.7 L306.7,684.9 L306.5,684.0 L306.3,683.2 L306.1,682.4 L306.0,681.5 L305.9,680.7 L305.8,679.9 L305.7,679.1 L305.6,678.4 L305.4,677.8 L305.3,677.2 L305.0,676.7 L304.8,676.3 L304.4,676.0 L304.0,675.8 L303.5,675.7 L303.0,675.8 L302.3,675.9 L301.5,676.2 L300.6,676.5 L299.7,676.8 L298.5,677.1 L297.0,677.1 L295.3,677.2 L293.5,677.2 L291.8,677.3 L290.0,677.2 L288.5,677.0 L287.1,676.6 L285.9,675.9 L285.1,674.9 L284.6,673.7 L284.4,672.2 L284.5,670.5 L284.8,668.7 L285.3,666.9 L286.0,665.2 L286.7,663.8 L287.5,662.6 L288.2,661.7 L288.9,661.3 L289.6,661.3 L290.3,661.9 L290.8,663.2 L291.3,665.2 L291.3,667.9 L290.8,670.9 L289.8,673.6 L288.4,675.9 L286.8,677.6 L285.3,678.6 L283.9,679.0 L282.8,678.9 L281.9,678.4 L281.3,677.5 L280.9,676.5 L280.8,675.3 L280.9,674.0 L281.1,672.7 L281.5,671.5 L282.1,670.3 L282.8,669.3 L283.7,668.4 L284.8,667.8 L286.0,667.2 L287.3,666.9 L288.9,666.6 L290.7,666.4 L292.6,666.2 L294.6,665.9 L296.6,665.7 L298.6,665.6 L300.6,665.4 L302.6,665.2 L304.5,664.9 L306.2,664.6 L307.7,664.1 L309.0,663.4 L310.0,662.6 L310.7,661.6 L311.1,660.4 L311.2,659.0 L311.1,657.5 L310.8,655.9 L310.4,654.3 L310.0,652.6 L309.6,651.0 L309.2,649.4 L309.0,648.0 L309.0,646.7 L309.0,645.7 L309.3,644.9 L309.7,644.4 L310.2,644.2 L311.0,644.2 L311.9,644.3 L313.0,644.7 L314.2,645.3 L315.4,646.2 L316.6,647.1 L317.8,648.2 L318.9,649.3 L319.9,650.3 L320.9,651.2 L321.7,652.0 L322.5,652.6 L323.1,653.0 L323.6,653.1 L324.1,653.0 L324.4,652.6 L324.7,652.0 L325.0,651.2 L325.3,650.3 L325.5,649.3 L325.7,648.2 L325.9,647.1 L326.1,646.0 L326.2,645.0 L326.2,644.0 L326.3,643.1 L326.6,642.3 L326.9,641.7 L327.3,641.2 L327.7,641.0 L328.1,640.9 L328.5,641.0 L328.8,641.3 L329.1,641.8 L329.2,642.4 L329.2,643.2 L329.1,644.1 L328.9,645.2 L328.7,646.4 L328.3,647.7 L327.9,649.0 L327.6,650.5 L327.3,652.0 L327.0,653.5 L326.9,655.1 L327.0,656.7 L327.2,658.3 L327.5,659.5 L327.4,660.1 L327.3,660.4 L327.4,660.6 L327.8,660.9 L328.5,661.2 L329.4,661.4 L330.6,661.7 L331.9,662.0 L333.4,662.3 L335.1,662.6 L336.8,663.0 L338.5,663.4 L340.2,663.9 L341.9,664.4 L343.4,665.0 L344.8,665.8 L346.1,666.6 L347.2,667.5 L348.2,668.6 L349.1,669.9 L350.0,671.3 L350.8,672.9 L351.7,674.7 L352.6,676.5 L353.3,678.3 L354.0,680.2 L354.7,682.2 L355.5,684.1 L356.4,686.0 L357.4,687.8 L358.6,689.4 L360.0,690.7 L361.6,691.7 L363.3,692.3 L365.2,692.5 L367.2,692.4 L369.2,691.9 L371.3,691.2 L373.5,690.2 L375.5,689.0 L377.5,687.8 L379.5,686.5 L381.3,685.4 L383.1,684.4 L384.8,683.5 L386.5,683.0 L388.2,682.6 L389.8,682.5 L391.5,682.6 L393.2,682.9 L395.0,683.4 L396.9,684.2 L399.0,685.0 L401.2,685.8 L403.5,686.5 L405.8,687.1 L408.1,687.5 L410.3,687.6 L412.5,687.3 L414.4,686.5 L416.2,685.4 L417.7,683.8 L418.9,681.9 L419.8,679.7 L420.4,677.2 L420.9,674.6 L421.2,672.0 L421.4,669.5 L421.7,667.1 L422.0,664.9 L422.6,662.9 L423.5,661.2 L424.6,659.8 L426.2,658.6 L428.1,657.6 L430.3,656.7 L432.8,655.8 L435.4,654.9 L438.1,653.9 L440.5,652.7 L442.6,651.3 L444.1,649.6 L445.1,647.7 L445.4,645.5 L445.0,643.1 L444.1,640.5 L442.7,637.8 L441.2,635.2 L439.7,632.5 L438.6,630.1 L438.0,627.8 L438.3,625.7 L439.4,623.7 L441.3,622.0 L443.9,620.3 L446.8,618.7 L449.8,616.9 L452.3,615.0 L454.1,612.8 L454.8,610.4 L454.4,607.8 L453.0,605.0 L450.8,602.1 L448.3,599.2 L446.1,596.3 L444.8,593.6 L444.6,591.0 L445.8,588.5 L448.1,586.1 L451.3,583.7 L454.6,581.3 L457.4,578.8 L459.0,576.2 L459.1,573.4 L457.6,570.4 L455.0,567.4 L451.9,564.4 L449.2,561.3 L447.6,558.4 L447.6,555.5 L449.3,552.7 L452.4,549.8 L456.0,546.9 L459.1,543.8 L460.9,540.7 L460.6,537.5 L458.4,534.2 L454.9,531.0 L451.2,527.7 L448.7,524.5 L448.2,521.2 L450.0,517.9 L453.3,514.6 L457.1,511.3 L460.0,508.0 L461.0,504.7 L459.7,501.4 L456.7,498.3 L452.8,495.1 L449.5,492.0 L447.8,488.9 L448.1,485.8 L450.3,482.7 L453.6,479.7 L457.0,476.6 L459.6,473.6 L460.3,470.5 L459.0,467.5 L456.0,464.4 L452.3,461.3 L449.0,458.2 L447.2,455.0 L447.6,451.9 L449.8,448.7 L453.2,445.5 L456.7,442.3 L459.0,439.1 L459.7,436.0 L458.4,433.0 L455.8,430.1 L452.4,427.4 L449.2,424.8 L446.8,422.2 L445.6,419.7 L445.7,417.1 L446.8,414.5 L448.6,411.7 L450.5,409.0 L452.2,406.4 L453.6,403.8 L454.5,401.4 L454.8,399.1 L454.5,396.9 L453.8,394.9 L452.6,393.1 L451.1,391.5 L449.4,390.0 L447.5,388.7 L445.5,387.6 L443.5,386.6 L441.5,385.8 L439.5,385.2 L437.6,384.6 L435.9,384.2 L434.3,383.8 L432.8,383.4 L431.4,383.0 L430.2,382.5 L429.2,381.9 L428.3,381.1 L427.6,380.1 L427.0,378.9 L426.6,377.6 L426.4,376.1 L426.1,374.5 L425.8,372.9 L425.4,371.2 L424.9,369.4 L424.2,367.7 L423.4,365.9 L422.3,364.2 L421.1,362.6 L419.6,361.2 L418.0,359.9 L416.2,359.0 L414.3,358.3 L412.3,358.1 L410.2,358.3 L407.9,359.0 L405.6,360.1 L403.3,361.6 L400.9,363.5 L398.4,365.3 L396.0,366.8 L393.5,367.7 L391.0,367.4 L388.3,365.7 L385.5,362.7 L382.5,359.0 L379.3,355.6 L375.9,353.8 L372.3,354.3 L368.5,357.3 L364.7,361.6 L360.8,365.2 L356.8,366.3 L352.8,364.1 L348.8,359.7 L344.6,355.3 L340.5,353.3 L336.3,355.0 L332.1,359.4 L328.0,364.1 L323.8,366.4 L319.7,365.1 L315.6,361.0 L311.6,356.4 L307.6,353.7 L303.8,354.2 L300.0,357.5 L296.2,361.9 L292.4,365.5 L288.4,366.4 L284.4,363.8 L280.4,359.2 L276.3,354.9 L272.1,353.4 L268.0,355.5 L263.8,360.0 L259.6,364.4 L255.5,366.3 L251.4,364.6 L247.3,360.4 L243.2,356.0 L239.3,353.5 L235.4,354.2 L231.6,357.5 L228.0,361.8 L224.6,365.3 L221.2,366.8 L217.9,366.0 L214.6,363.6 L211.4,360.6 L208.2,357.8 L205.4,355.9 L202.8,355.2 L200.4,355.5 L198.2,356.8 L196.3,358.7 L194.5,360.9 L192.9,363.1 L191.4,365.3 L189.9,367.2 L188.6,368.8 L187.2,370.1 L185.9,371.1 L184.5,371.9 L183.1,372.4 L181.6,372.8 L180.1,373.0 L178.4,373.1 L176.7,373.0 L174.9,372.9 L173.0,372.8 L171.1,372.5 L169.2,372.3 L167.2,372.1 L165.3,371.9 L163.4,372.0 L161.6,372.3 L159.9,373.0 L158.4,373.9 L157.1,375.1 L156.0,376.6 L155.1,378.4 L154.4,380.3 L153.9,382.4 L153.7,384.7 L153.7,387.0 L153.9,389.3 L154.2,391.6 L154.7,393.9 L155.1,396.0 L155.4,398.1 L155.6,400.0 L155.4,401.8 L154.9,403.5 L153.9,405.2 L152.4,406.8 L150.4,408.4 L147.9,410.0 L145.3,411.8 L142.7,413.8 L140.4,416.1 L139.0,418.6 L138.6,421.3 L139.4,424.0 L141.3,426.9 L144.0,429.8 L146.8,432.7 L149.2,435.5 L150.5,438.4 L150.1,441.2 L148.2,444.0 L145.1,446.9 L141.7,449.9 L138.8,452.8 L137.4,455.9 L138.0,458.9 L140.2,461.9 L143.7,464.9 L147.2,467.9 L149.7,471.0 L150.5,474.0 L149.2,477.0 L146.4,480.0 L142.8,483.1 L139.6,486.3 L137.7,489.6 L138.0,492.9 L140.5,496.1 L144.2,499.4 L148.1,502.7 L150.5,506.0 L150.7,509.4 L148.5,512.9 L144.8,516.4 L141.0,520.0 L138.7,523.5 L138.8,527.0 L141.3,530.4 L145.3,533.7 L149.3,537.0 L151.7,540.3 L151.6,543.7 L149.3,547.2 L145.6,550.7 L142.0,554.1 L139.8,557.4 L139.7,560.6 L141.9,563.8 L145.7,567.1 L149.8,570.5 L152.5,573.9 L152.6,577.5 L150.1,581.2 L146.1,585.0 L142.3,588.7 L140.4,592.4 L141.3,596.0 L144.7,599.5 L148.9,602.9 L152.4,606.3 L153.8,609.6 L152.9,612.9 L150.1,616.1 L146.7,619.2 L143.6,622.2 L141.7,625.0 L141.3,627.5 L142.2,629.9 L143.9,632.0 L146.0,633.8 L148.0,635.5 Z"/>
+              </g>
+
+              <g class="organ" data-organ="rektum" tabindex="0" role="button" aria-label="Rektum dan anus">
+                <path class="organ-rektum" d="M298,700 C299,720 300,742 300,762"/>
+              </g>
+
+              <g class="organ" data-organ="mulut" tabindex="0" role="button" aria-label="Mulut">
+                <ellipse class="organ-mulut" cx="300" cy="93" rx="28" ry="13"/>
+              </g>
+
+              <text class="organ-label" x="335" y="97">Mulut</text>
+              <text class="organ-label" x="352" y="200">Esofagus</text>
+              <text class="organ-label" x="165" y="102">Hati</text>
+              <text class="organ-label" x="95" y="272">K. Empedu</text>
+              <text class="organ-label" x="458" y="262">Lambung</text>
+              <text class="organ-label" x="443" y="430">Pankreas</text>
+              <text class="organ-label" x="128" y="442">Usus Halus</text>
+              <text class="organ-label" x="470" y="460">Usus Besar</text>
+              <text class="organ-label" x="318" y="748">Rektum</text>
+
+              <circle class="food-trail" id="trail-4" r="3"/>
+              <circle class="food-trail" id="trail-3" r="4"/>
+              <circle class="food-trail" id="trail-2" r="5"/>
+              <circle class="food-trail" id="trail-1" r="6"/>
+              <circle class="food-trail" id="trail-0" r="7"/>
+              <circle id="food-particle" class="food-particle" cx="300" cy="93" r="8"/>
+            </svg>
+          </div>
+
+          <div class="legend" id="legend"></div>
+
+          <div class="sim-controls">
+            <button class="btn btn-primary" id="btn-start-sim">▶ Mulai Simulasi</button>
+            <button class="btn btn-ghost" id="btn-reset-sim">↺ Ulangi</button>
+            <span class="sim-timer" id="sim-timer"></span>
+          </div>
+          <div class="stepper" id="stepper"></div>
+        </div>
+
+        <div class="chart-card empty" id="info-panel">
+          <div class="empty-inner">
+            <div class="empty-icon">🩺</div>
+            <div>Klik salah satu organ pada diagram, atau pilih dari daftar warna di bawahnya, untuk membuka kartu diagnostiknya di sini.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 2: MATERI LENGKAP ======================= -->
+    <section id="tab-materi" class="tab-content">
+      <div class="section-heading">Materi Pembelajaran</div>
+      <h2 class="title">Sembilan Plat, Satu Perjalanan</h2>
+      <p class="section-sub">Urutan sebenarnya proses pencernaan — dari makanan masuk mulut sampai sisa dikeluarkan tubuh.</p>
+
+      <div class="flow-strip" id="flow-strip"></div>
+
+      <div class="stat-strip">
+        <div class="stat-box"><div class="num" data-target="9" data-suffix=" m">0 m</div><div class="lbl">Panjang total saluran cerna</div></div>
+        <div class="stat-box"><div class="num" data-target="90" data-suffix="%">0%</div><div class="lbl">Nutrisi diserap di usus halus</div></div>
+        <div class="stat-box"><div class="num" data-target="100" data-suffix="T">0T</div><div class="lbl">Mikroorganisme di usus besar</div></div>
+        <div class="stat-box"><div class="num">24–72j</div><div class="lbl">Waktu transit lengkap</div></div>
+      </div>
+
+      <div class="accordion" id="accordion-materi"></div>
+
+      <div class="subhead">
+        <h3>Gangguan Pencernaan Umum</h3>
+        <p>Beberapa kondisi yang paling sering dikaitkan dengan tiap organ — dikenali sejak dini, ditangani lebih mudah.</p>
+      </div>
+      <div class="disorders-grid" id="disorders-grid"></div>
+
+      <div class="subhead">
+        <h3>Menjaga Kesehatan Pencernaan</h3>
+        <p>Kebiasaan umum dan sederhana yang mendukung kerja seluruh sistem di atas.</p>
+      </div>
+      <div class="tips-grid" id="tips-grid"></div>
+    </section>
+
+    <!-- ======================= TAB 3: LEBIH DALAM ======================= -->
+    <section id="tab-dalam" class="tab-content">
+      <div class="section-heading">Wawasan Lanjutan</div>
+      <h2 class="title">Di Balik Sembilan Organ</h2>
+      <p class="section-sub">Lima sudut pandang tambahan: struktur dinding saluran cerna itu sendiri, bagaimana tiga makronutrien dicerna, hormon apa saja yang mengatur semuanya, "otak kedua" yang bekerja diam-diam di perut, dan sistem imun raksasa yang bersembunyi di usus.</p>
+
+      <div class="subhead" style="margin-top:0;padding-top:0;border-top:none;">
+        <h3>Lapisan Dinding Saluran Cerna</h3>
+        <p>Dari esofagus sampai usus besar, dindingnya selalu tersusun dari 4 lapisan yang sama — hanya ketebalan dan detailnya yang berbeda tiap organ.</p>
+      </div>
+      <div class="layer-grid" id="layer-grid"></div>
+
+      <div class="subhead">
+        <h3>Perjalanan Tiga Makronutrien</h3>
+        <p>Organ yang sama, tapi jalur pemecahan tiap jenis nutrisi ternyata berbeda-beda.</p>
+      </div>
+      <div class="macro-grid" id="macro-grid"></div>
+
+      <div class="subhead">
+        <h3>Hormon Pencernaan</h3>
+        <p>Sinyal kimiawi yang mengoordinasikan kapan tiap organ harus mulai bekerja.</p>
+      </div>
+      <div class="hormone-grid" id="hormone-grid"></div>
+
+      <div class="subhead">
+        <h3>Sistem Saraf Enterik — "Otak Kedua"</h3>
+        <p>Jaringan saraf mandiri yang jarang dibahas, padahal perannya besar.</p>
+      </div>
+      <div class="enteric-box">
+        <p>Dinding saluran cerna, dari esofagus hingga usus besar, memiliki jaringan sarafnya <b>sendiri</b> yang disebut sistem saraf enterik — berisi sekitar <b>100 hingga 500 juta neuron</b>, lebih banyak dibanding sumsum tulang belakang.</p>
+        <p>Jaringan ini mampu mengatur gerakan peristaltik dan sekresi pencernaan secara cukup independen, bahkan tanpa perintah langsung dari otak — itulah sebabnya ia sering dijuluki <b>"otak kedua"</b>.</p>
+        <p>Sistem saraf enterik tetap terhubung ke otak lewat saraf vagus, membentuk <b>sumbu usus–otak</b> (gut-brain axis). Ini menjelaskan kenapa stres bisa memicu masalah pencernaan, dan sebaliknya, gangguan pencernaan bisa memengaruhi suasana hati.</p>
+        <p>Fakta yang mengejutkan banyak orang: sekitar <b>90–95% serotonin</b> tubuh — senyawa yang erat kaitannya dengan suasana hati — sebenarnya diproduksi di usus, bukan di otak.</p>
+      </div>
+
+      <div class="subhead">
+        <h3>Sistem Imun di Usus (GALT)</h3>
+        <p>Bagian pertahanan tubuh yang jarang disadari besarnya.</p>
+      </div>
+      <div class="immune-box">
+        <p>Sekitar <b>70–80% sel imun tubuh</b> berkumpul di sekitar saluran cerna, dalam jaringan yang disebut GALT (Gut-Associated Lymphoid Tissue) — menjadikan usus pusat pertahanan tubuh terbesar.</p>
+        <p><b>Bercak Peyer</b> (Peyer's patches), kumpulan jaringan limfoid di dinding usus halus (terutama ileum), terus memantau dan merespons potensi patogen yang masuk lewat makanan.</p>
+        <p>Ini masuk akal secara biologis: usus adalah salah satu titik kontak terbesar antara tubuh dan dunia luar, lewat segala sesuatu yang kita makan dan minum — wajar bila butuh sistem pertahanan sebesar itu.</p>
+        <p>Mikrobiota usus turut berperan melatih dan menyeimbangkan sistem imun ini, terutama sejak masa kanak-kanak.</p>
+      </div>
+
+      <div class="subhead">
+        <h3>Istilah Penting</h3>
+        <p>Kosakata yang sering muncul di seluruh materi di atas.</p>
+      </div>
+      <div class="glossary-grid" id="glossary-grid"></div>
+    </section>
+
+    <!-- ======================= TAB 4: FAKTA & KUIS ======================= -->
+    <section id="tab-fakta" class="tab-content">
+      <div class="section-heading">Lampiran</div>
+      <h2 class="title">Fakta Menarik</h2>
+      <p class="section-sub">Beberapa catatan kecil yang jarang disadari tentang sistem pencernaan sendiri.</p>
+      <div class="facts-grid" id="facts-grid"></div>
+
+      <div class="section-heading">Evaluasi</div>
+      <h2 class="title">Uji Pemahaman</h2>
+      <p class="section-sub">Sebelas pertanyaan singkat, mencakup seluruh materi — dasar sampai lanjutan.</p>
+      <div id="quiz-container"></div>
+      <div class="quiz-score" id="quiz-score">
+        <div class="score-num" id="score-num">0/11</div>
+        <div id="score-msg"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Dibuat sebagai materi edukasi. Bukan pengganti diagnosis atau konsultasi medis profesional — <b>Atlas Interaktif Sistem Pencernaan</b>.
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ============ DATA: ORGANS ============ */
+var ORDER = ["mulut","esofagus","lambung","hati","empedu","pankreas","usushalus","ususbesar","rektum"];
+var TUBE_ORGANS = ["esofagus","rektum"];
+var CHURN_ORGANS = ["lambung","usushalus","ususbesar"];
+
+var organs = {
+  mulut:{
+    plate:"01", name:"Mulut", color:"var(--o-mulut)", ph:[6.5,7.4], phCtx:"pH rongga mulut",
+    tagline:"Gerbang pertama, tempat pencernaan mekanik dan kimiawi dimulai bersamaan.",
+    vitals:[{l:"Durasi",v:"15–30 detik"},{l:"Enzim",v:"Amilase"},{l:"Air liur",v:"1–1,5 L/hari"}],
+    ringkasan:"Gigi memotong dan menggiling makanan, lidah mencampurnya dengan air liur, lalu mendorongnya ke faring untuk ditelan.",
+    materi:{
+      fungsi:["Mencerna makanan secara mekanik lewat pengunyahan (mastikasi).","Memulai pencernaan kimiawi karbohidrat melalui enzim dalam air liur.","Melumasi makanan menjadi gumpalan (bolus) agar mudah ditelan."],
+      proses:"Tiga pasang kelenjar ludah (parotis, submandibularis, sublingualis) menghasilkan air liur yang mengandung enzim amilase (ptialin). Enzim ini mulai memecah pati menjadi maltosa selagi makanan masih dikunyah. Lidah membantu mencampur dan membentuk bolus sebelum proses menelan dimulai.",
+      enzim:["Amilase (ptialin) — memecah pati menjadi maltosa","Lipase lingual — memulai pemecahan lemak dalam jumlah kecil"],
+      fakta:"Rata-rata orang mengunyah makanan 20–40 kali per suapan sebelum menelan, tergantung tekstur makanannya."
+    },
+    fact:"Air liur membasuh mulut sekitar 1–1,5 liter per hari — cukup untuk mengisi dua botol air mineral berukuran 750 ml."
+  },
+  esofagus:{
+    plate:"02", name:"Esofagus", color:"var(--o-esofagus)", ph:[6.0,7.0], phCtx:"pH saluran",
+    tagline:"Tabung otot yang mengantar makanan turun murni lewat gerakan gelombang.",
+    vitals:[{l:"Panjang",v:"≈ 25 cm"},{l:"Durasi",v:"5–10 detik"},{l:"Gerakan",v:"Peristaltik"}],
+    ringkasan:"Bukan gravitasi yang membawa makanan ke lambung, melainkan gelombang kontraksi otot yang disebut peristaltik.",
+    materi:{
+      fungsi:["Menyalurkan bolus dari faring ke lambung.","Mencegah aliran balik isi lambung lewat sfingter esofagus bawah (LES)."],
+      proses:"Begitu bolus melewati faring, epiglotis menutup saluran napas agar makanan tidak masuk trakea. Otot esofagus lalu berkontraksi bergelombang (peristaltik) mendorong makanan turun, bahkan bila tubuh sedang dalam posisi terbalik. Sfingter esofagus bawah membuka sesaat untuk melewatkan makanan lalu menutup kembali mencegah asam lambung naik.",
+      enzim:["Tidak ada pencernaan kimiawi signifikan di sini — fungsinya murni transportasi."],
+      fakta:"Gangguan pada sfingter esofagus bawah adalah penyebab utama GERD (refluks asam)."
+    },
+    fact:"Esofagus mampu mendorong makanan turun berkat peristaltik, bukan gravitasi — itu sebabnya kita tetap bisa menelan sambil berdiri terbalik."
+  },
+  lambung:{
+    plate:"03", name:"Lambung", color:"var(--o-lambung)", ph:[1.5,3.5], phCtx:"pH saluran",
+    tagline:"Kantong asam yang mengubah makanan menjadi bubur kental bernama kim.",
+    vitals:[{l:"Durasi",v:"2–4 jam"},{l:"pH",v:"1,5–3,5"},{l:"Kapasitas",v:"1–1,5 L"}],
+    ringkasan:"Organ berbentuk J ini mencampur, meremas, dan mencerna makanan dengan asam klorida dan enzim pepsin.",
+    materi:{
+      fungsi:["Menyimpan makanan sementara dan mengatur pelepasannya ke usus halus.","Mencerna protein secara kimiawi lewat pepsin.","Membunuh sebagian besar bakteri lewat keasaman tinggi."],
+      proses:"Dinding lambung menghasilkan getah lambung berisi asam klorida (HCl) dan pepsinogen. Asam mengaktifkan pepsinogen menjadi pepsin, enzim pemecah protein. Otot lambung meremas dan mengaduk makanan (churning) hingga menjadi cairan kental disebut kim (chyme). Lapisan mukus tebal melindungi dinding lambung agar tidak ikut tercerna. Secara anatomis, lambung terbagi menjadi fundus (kubah atas, tempat gas menumpuk), korpus (badan utama), dan antrum (bagian bawah sebelum pilorus) — dengan kurvatura mayor (sisi luar yang panjang dan melengkung) dan kurvatura minor (sisi dalam yang pendek).",
+      enzim:["Pepsin — memecah protein menjadi peptida","Asam klorida (HCl) — mengaktifkan pepsin & membunuh bakteri","Lipase lambung — mencerna sebagian kecil lemak"],
+      fakta:"Lambung bisa meregang hingga menampung sekitar 4 liter saat makan dalam porsi besar."
+    },
+    fact:"Lapisan mukus lambung diperbarui total setiap 2 minggu — kalau tidak, asam HCl akan mulai mencerna dinding lambung itu sendiri."
+  },
+  hati:{
+    plate:"04", name:"Hati", color:"var(--o-hati)", ph:[7.1,8.5], phCtx:"pH empedu yang dihasilkan",
+    tagline:"Organ dalam terbesar, penghasil empedu sekaligus pusat pengolahan nutrisi.",
+    vitals:[{l:"Berat",v:"≈ 1,5 kg"},{l:"Empedu",v:"800–1000 ml/hari"},{l:"Peran",v:"Detoksifikasi"}],
+    ringkasan:"Tidak dilalui makanan secara langsung, tapi hati memasok empedu yang penting untuk mencerna lemak di usus halus.",
+    materi:{
+      fungsi:["Memproduksi empedu untuk mengemulsi lemak.","Menyaring darah dari usus dan menetralkan racun.","Menyimpan glikogen serta beberapa vitamin dan mineral.","Memproduksi protein plasma darah."],
+      proses:"Seluruh darah dari usus melewati hati lebih dulu sebelum beredar ke seluruh tubuh, membawa nutrisi hasil serapan usus. Hati mengolah nutrisi ini, menyaring zat berbahaya, dan terus-menerus memproduksi empedu yang dialirkan ke kantong empedu untuk disimpan. Secara anatomis, hati terbagi menjadi lobus kanan (jauh lebih besar) dan lobus kiri (lebih kecil, menjulur ke arah lambung).",
+      enzim:["Bukan penghasil enzim pencernaan utama — perannya lewat produksi empedu."],
+      fakta:"Hati adalah salah satu organ yang mampu meregenerasi sebagian jaringannya sendiri setelah cedera."
+    },
+    fact:"Hati memproses hampir semua nutrisi yang diserap usus sebelum diedarkan ke seluruh tubuh — bertindak seperti pusat kendali mutu."
+  },
+  empedu:{
+    plate:"05", name:"Kantong Empedu", color:"var(--o-empedu)", ph:[7.1,8.5], phCtx:"pH empedu tersimpan",
+    tagline:"Kantong penyimpan kecil yang melepaskan empedu tepat saat lemak lewat.",
+    vitals:[{l:"Kapasitas",v:"30–50 ml"},{l:"Fungsi",v:"Simpan empedu"},{l:"Pemicu",v:"Hormon CCK"}],
+    ringkasan:"Menyimpan dan memekatkan empedu dari hati, lalu memerasnya ke duodenum begitu makanan berlemak tiba.",
+    materi:{
+      fungsi:["Menyimpan dan memekatkan empedu yang diproduksi hati.","Melepaskan empedu ke duodenum saat mendeteksi lemak dalam makanan."],
+      proses:"Ketika kim berlemak memasuki duodenum, sel usus melepaskan hormon kolesistokinin (CCK). Hormon ini memberi sinyal ke kantong empedu untuk berkontraksi, mendorong empedu keluar lewat saluran empedu menuju duodenum, tempat empedu mengemulsi lemak agar lebih mudah dicerna enzim lipase.",
+      enzim:["Empedu bukan enzim, melainkan cairan pengemulsi lemak (garam empedu)."],
+      fakta:"Batu empedu terbentuk saat kolesterol atau bilirubin dalam empedu mengkristal."
+    },
+    fact:"Tanpa kantong empedu pun manusia masih bisa mencerna lemak — hati tetap mengalirkan empedu langsung, hanya kurang terkonsentrasi."
+  },
+  pankreas:{
+    plate:"06", name:"Pankreas", color:"var(--o-pankreas)", ph:[8.0,8.3], phCtx:"pH getah pankreas",
+    tagline:"Kelenjar ganda: memasok enzim pencernaan sekaligus mengatur gula darah.",
+    vitals:[{l:"Enzim",v:"Amilase, lipase, tripsin"},{l:"Fungsi",v:"Eksokrin & endokrin"},{l:"Hormon",v:"Insulin, glukagon"}],
+    ringkasan:"Sisi eksokrinnya memasok enzim pencernaan utama ke duodenum, sementara pulau Langerhans mengatur gula darah.",
+    materi:{
+      fungsi:["Menghasilkan enzim pencernaan untuk karbohidrat, protein, dan lemak.","Menghasilkan bikarbonat untuk menetralkan asam dari lambung.","Mengatur kadar gula darah lewat insulin dan glukagon (fungsi endokrin)."],
+      proses:"Getah pankreas dialirkan ke duodenum lewat saluran pankreas, membawa enzim tripsinogen, amilase pankreas, dan lipase, ditambah bikarbonat yang menetralkan keasaman kim dari lambung sehingga enzim usus bisa bekerja optimal. Di sisi lain, pulau Langerhans dalam jaringan pankreas melepaskan insulin dan glukagon langsung ke darah untuk mengatur gula darah. Secara anatomis, pankreas terbagi menjadi kepala (bersarang di lekukan duodenum), badan (bagian tengah), dan ekor (menjulur tipis ke arah limpa).",
+      enzim:["Tripsin & kimotripsin — memecah protein","Amilase pankreas — memecah pati","Lipase pankreas — memecah lemak","Bikarbonat — menetralkan asam lambung"],
+      fakta:"Kurang dari 2% jaringan pankreas berfungsi sebagai kelenjar endokrin (pulau Langerhans); sisanya eksokrin."
+    },
+    fact:"Pankreas menjalankan dua pekerjaan berbeda sekaligus: memasok enzim pencernaan dan mengatur gula darah lewat insulin."
+  },
+  usushalus:{
+    plate:"07", name:"Usus Halus", color:"var(--o-usushalus)", ph:[7.0,8.5], phCtx:"pH saluran",
+    tagline:"Tempat utama penyerapan nutrisi, terdiri dari duodenum, jejunum, dan ileum.",
+    vitals:[{l:"Panjang",v:"6–7 meter"},{l:"Durasi",v:"3–5 jam"},{l:"Penyerapan",v:"≈ 90% nutrisi"}],
+    ringkasan:"Duodenum menerima kim, empedu, dan enzim pankreas; jejunum dan ileum lalu menyerap sebagian besar nutrisi.",
+    materi:{
+      fungsi:["Mencerna karbohidrat, protein, dan lemak secara tuntas.","Menyerap sebagian besar nutrisi ke aliran darah dan limfa.","Menyerap vitamin B12 dan garam empedu (khusus di ileum)."],
+      proses:"Duodenum (≈25 cm) adalah tempat kim bercampur dengan empedu dari kantong empedu dan enzim dari pankreas. Jejunum (≈2,5 m) menjadi lokasi penyerapan nutrisi paling aktif berkat jutaan tonjolan kecil bernama vili dan mikrovili yang memperluas permukaan penyerapan. Ileum (≈3,5 m) menyerap sisa nutrisi termasuk vitamin B12, sebelum sisa kim diteruskan ke usus besar.",
+      enzim:["Maltase, laktase, sukrase — memecah gula ganda menjadi gula sederhana","Aminopeptidase — menyelesaikan pemecahan protein menjadi asam amino","Lipase usus — melanjutkan pencernaan lemak"],
+      fakta:"Bila seluruh vili dan mikrovilinya dibentangkan, luas permukaan usus halus mencapai sekitar 250–400 m² — seluas lapangan tenis."
+    },
+    fact:"Usus halus menyerap sekitar 90% dari seluruh nutrisi yang kita konsumsi, menjadikannya organ penyerapan paling penting."
+  },
+  ususbesar:{
+    plate:"08", name:"Usus Besar", color:"var(--o-ususbesar)", ph:[5.5,7.0], phCtx:"pH saluran",
+    tagline:"Menyerap air dan elektrolit, sekaligus rumah bagi triliunan bakteri baik.",
+    vitals:[{l:"Panjang",v:"≈ 1,5 meter"},{l:"Durasi",v:"10–20 jam"},{l:"Isi",v:"Triliunan bakteri"}],
+    ringkasan:"Sisa kim yang tidak tercerna diubah menjadi feses lewat penyerapan air, dibantu mikrobiota usus yang memfermentasi serat.",
+    materi:{
+      fungsi:["Menyerap air dan elektrolit dari sisa makanan.","Membentuk dan menyimpan sementara feses.","Memfermentasi serat lewat bakteri usus, menghasilkan vitamin K dan sebagian vitamin B."],
+      proses:"Sisa kim yang tidak tercerna masuk dari ileum ke sekum, lalu melewati kolon asenden, transversum, desenden, hingga sigmoid. Sepanjang perjalanan ini air dan elektrolit diserap kembali ke tubuh, mengubah cairan sisa menjadi feses yang lebih padat. Triliunan bakteri (mikrobiota usus) yang hidup di sini memfermentasi serat yang tidak tercerna, menghasilkan sebagian vitamin K dan vitamin B sebagai produk sampingan. Usus besar melengkung di dua titik: fleksura hepatika (dekat hati, kanan atas) dan fleksura lienalis/splenikus (dekat limpa, kiri atas), sebelum berlanjut ke kolon desenden dan sigmoid.",
+      enzim:["Tidak banyak enzim manusia aktif di sini — sebagian besar prosesnya dilakukan bakteri usus lewat fermentasi."],
+      fakta:"Usus manusia diperkirakan menjadi rumah bagi sekitar 100 triliun mikroorganisme."
+    },
+    fact:"Mikrobiota usus besar membantu memproduksi vitamin K dan sebagian vitamin B — kontribusi kecil tapi penting bagi tubuh."
+  },
+  rektum:{
+    plate:"09", name:"Rektum & Anus", color:"var(--o-rektum)", ph:[6.5,7.0], phCtx:"pH saluran",
+    tagline:"Pemberhentian terakhir — menyimpan lalu mengeluarkan sisa pencernaan.",
+    vitals:[{l:"Kontrol",v:"Sfingter ganda"},{l:"Waktu total",v:"24–72 jam"},{l:"Fungsi",v:"Penyimpanan & keluar"}],
+    ringkasan:"Rektum menampung feses sampai cukup penuh, lalu dua sfingter di anus mengatur kapan ia dikeluarkan.",
+    materi:{
+      fungsi:["Menyimpan feses sebelum dikeluarkan dari tubuh.","Mengatur waktu buang air besar lewat kontrol otot sadar dan tak sadar."],
+      proses:"Saat rektum mulai penuh, dindingnya meregang dan mengirim sinyal keinginan buang air besar. Sfingter anus internal (otot polos, bekerja tanpa disadari) merespons otomatis, sementara sfingter anus eksternal (otot rangka) bisa dikendalikan secara sadar, memberi waktu untuk mencari toilet sebelum akhirnya rileks dan mengeluarkan feses.",
+      enzim:["Tidak ada pencernaan kimiawi di tahap ini — murni penyimpanan dan pengeluaran."],
+      fakta:"Waktu transit total dari mulut hingga keluar bervariasi lebar antar individu, umumnya 24 sampai 72 jam."
+    },
+    fact:"Dua sfingter anus bekerja bersama — satu di luar kendali sadar, satu lagi bisa kita tahan — itu sebabnya kita bisa 'menunda' sebentar."
+  }
+};
+
+/* ============ DATA: DISORDERS, TIPS ============ */
+var disorders = [
+  {nama:"GERD (Refluks Asam)", organ:"esofagus", gejala:"Sensasi terbakar di dada, rasa asam naik ke tenggorokan.", sebab:"Sfingter esofagus bawah melemah sehingga asam lambung naik kembali."},
+  {nama:"Gastritis (Maag)", organ:"lambung", gejala:"Nyeri ulu hati, mual, perut kembung.", sebab:"Peradangan dinding lambung, sering dipicu infeksi H. pylori atau iritasi berlebih."},
+  {nama:"Tukak Lambung", organ:"lambung", gejala:"Nyeri perut menetap, terutama saat perut kosong.", sebab:"Luka pada lapisan lambung/duodenum, sering akibat H. pylori atau obat antiinflamasi jangka panjang."},
+  {nama:"Batu Empedu", organ:"empedu", gejala:"Nyeri mendadak di perut kanan atas setelah makan berlemak.", sebab:"Kristalisasi kolesterol atau bilirubin dalam empedu."},
+  {nama:"Sembelit", organ:"ususbesar", gejala:"BAB jarang, keras, dan sulit dikeluarkan.", sebab:"Kurang asupan serat, cairan, dan aktivitas fisik."},
+  {nama:"Diare", organ:"ususbesar", gejala:"BAB cair dengan frekuensi meningkat.", sebab:"Infeksi, intoleransi makanan, atau gangguan penyerapan air di usus."},
+  {nama:"Intoleransi Laktosa", organ:"usushalus", gejala:"Kembung, kram, dan diare setelah minum susu.", sebab:"Kekurangan enzim laktase untuk memecah laktosa."},
+  {nama:"IBS (Irritable Bowel Syndrome)", organ:"ususbesar", gejala:"Nyeri perut berulang dan pola BAB yang berubah-ubah.", sebab:"Belum sepenuhnya dipahami; terkait sensitivitas usus dan sumbu otak-usus."}
+];
+
+var tips = [
+  "Cukupi serat dari sayur, buah, dan biji-bijian utuh setiap hari.",
+  "Minum air putih yang cukup sepanjang hari.",
+  "Kunyah makanan perlahan dan menyeluruh sebelum menelan.",
+  "Bergerak aktif secara rutin — jalan kaki saja sudah membantu motilitas usus.",
+  "Jaga waktu makan yang teratur, hindari melewatkan jam makan terlalu lama.",
+  "Kelola stres — sumbu otak-usus membuat keduanya saling memengaruhi.",
+  "Batasi makanan ultra-olahan dan tinggi lemak jenuh.",
+  "Dengarkan sinyal tubuh; berhenti makan sebelum benar-benar kekenyangan."
+];
+
+/* ============ DATA: LAYERS, MACROS, HORMONES, GLOSSARY ============ */
+var layers = [
+  {nama:"Mukosa", pos:"Paling dalam", desc:"Bersentuhan langsung dengan makanan. Berisi sel penghasil lendir dan enzim, serta (di usus halus) vili untuk penyerapan nutrisi."},
+  {nama:"Submukosa", pos:"Lapisan ke-2", desc:"Jaringan ikat berisi pembuluh darah, saluran limfa, dan jaringan saraf yang menyokong mukosa di atasnya."},
+  {nama:"Muskularis", pos:"Lapisan ke-3", desc:"Dua lapis otot polos — sirkular di dalam, longitudinal di luar — yang berkontraksi bergantian menghasilkan gerakan peristaltik."},
+  {nama:"Serosa", pos:"Paling luar", desc:"Membungkus dan melindungi organ, menghasilkan cairan pelumas agar organ tidak bergesekan dengan organ di sekitarnya."}
+];
+
+var macros = [
+  {nama:"Karbohidrat", color:"var(--accent-coral)", steps:[
+    {loc:"Mulut", desc:"Amilase saliva mulai memecah pati menjadi maltosa."},
+    {loc:"Usus Halus", desc:"Amilase pankreas melanjutkan pemecahan; enzim usus (maltase, laktase, sukrase) mengubah gula ganda menjadi glukosa, fruktosa, dan galaktosa."},
+    {loc:"Hasil Akhir", desc:"Monosakarida diserap lewat vili usus halus langsung ke aliran darah."}
+  ]},
+  {nama:"Protein", color:"var(--accent-cyan)", steps:[
+    {loc:"Lambung", desc:"Pepsin (diaktifkan HCl) memecah protein menjadi peptida."},
+    {loc:"Usus Halus", desc:"Tripsin & kimotripsin dari pankreas memecahnya lebih kecil; aminopeptidase usus menyelesaikannya menjadi asam amino."},
+    {loc:"Hasil Akhir", desc:"Asam amino diserap lewat vili usus halus ke aliran darah."}
+  ]},
+  {nama:"Lemak", color:"var(--accent-violet)", steps:[
+    {loc:"Usus Halus (Duodenum)", desc:"Empedu dari hati/kantong empedu mengemulsi lemak menjadi butiran-butiran kecil."},
+    {loc:"Usus Halus", desc:"Lipase pankreas memecah lemak teremulsi menjadi asam lemak dan gliserol."},
+    {loc:"Hasil Akhir", desc:"Asam lemak & gliserol diserap lewat vili, sebagian besar masuk sistem limfa dulu sebelum ke darah."}
+  ]}
+];
+
+var hormones = [
+  {nama:"Gastrin", asal:"Lambung", pemicu:"Peregangan lambung oleh makanan", efek:"Merangsang produksi asam lambung (HCl) dan pepsinogen."},
+  {nama:"Sekretin", asal:"Duodenum", pemicu:"Kim asam memasuki duodenum", efek:"Merangsang pankreas melepas bikarbonat penetral asam."},
+  {nama:"Kolesistokinin (CCK)", asal:"Duodenum", pemicu:"Lemak & protein dalam kim", efek:"Merangsang kantong empedu berkontraksi dan pankreas melepas enzim."},
+  {nama:"Ghrelin", asal:"Lambung", pemicu:"Lambung kosong", efek:"Memberi sinyal lapar ke otak — dijuluki 'hormon lapar'."},
+  {nama:"Leptin", asal:"Sel lemak tubuh", pemicu:"Cadangan energi tercukupi", efek:"Memberi sinyal kenyang ke otak — kebalikan ghrelin."},
+  {nama:"Insulin & Glukagon", asal:"Pankreas (pulau Langerhans)", pemicu:"Kadar gula darah naik/turun", efek:"Insulin menurunkan gula darah, glukagon menaikkannya."}
+];
+
+var glossary = [
+  {t:"Bolus", d:"Gumpalan makanan yang telah dikunyah dan siap ditelan."},
+  {t:"Kim (Chyme)", d:"Campuran makanan setengah cerna berbentuk cairan kental dari lambung."},
+  {t:"Peristaltik", d:"Gerakan gelombang otot yang mendorong makanan sepanjang saluran cerna."},
+  {t:"Vili & Mikrovili", d:"Tonjolan kecil di dinding usus halus yang memperluas permukaan penyerapan."},
+  {t:"Sfingter", d:"Cincin otot yang membuka-menutup untuk mengatur aliran di saluran cerna."},
+  {t:"Mukus", d:"Lapisan lendir pelindung dinding saluran cerna dari asam dan enzim."},
+  {t:"Emulsifikasi", d:"Proses memecah lemak menjadi butiran kecil agar mudah dicerna enzim."},
+  {t:"Absorpsi", d:"Proses penyerapan nutrisi hasil pencernaan ke aliran darah/limfa."},
+  {t:"Mikrobiota", d:"Populasi mikroorganisme yang hidup di dalam usus."},
+  {t:"Motilitas", d:"Kemampuan otot saluran cerna bergerak dan mendorong isinya."},
+  {t:"Sekresi", d:"Proses pelepasan cairan/enzim oleh kelenjar pencernaan."},
+  {t:"Eksokrin & Endokrin", d:"Eksokrin melepas zat lewat saluran (misalnya enzim); endokrin melepas hormon langsung ke darah."}
+];
+
+/* ============ DATA: FACTS, QUIZ, SIM STAGES ============ */
+var facts = [
+  "Luas permukaan usus halus, bila dibentangkan lewat lipatan, vili, dan mikrovili, mencapai sekitar 250–400 m² — seluas lapangan tenis.",
+  "Lambung melapisi dindingnya dengan mukus tebal yang diperbarui total setiap 2 minggu agar tidak ikut tercerna oleh asam HCl.",
+  "Usus manusia menjadi rumah bagi sekitar 100 triliun mikroorganisme yang membantu mencerna serat dan memproduksi sebagian vitamin.",
+  "Kelenjar ludah menghasilkan sekitar 1–1,5 liter air liur setiap hari, cukup untuk dua botol air mineral ukuran 750 ml.",
+  "Panjang total saluran pencernaan orang dewasa sekitar 9 meter, dari mulut hingga anus.",
+  "Hati memproses hampir seluruh nutrisi yang diserap usus sebelum diedarkan ke seluruh tubuh.",
+  "Usus halus menyerap sekitar 90% nutrisi dari makanan yang kita konsumsi.",
+  "Proses mencerna makanan sepenuhnya bisa memakan waktu 24 hingga 72 jam, tergantung jenis makanan dan individu.",
+  "Sekitar 90–95% serotonin tubuh — senyawa terkait suasana hati — diproduksi di usus, bukan di otak.",
+  "Sistem saraf enterik di dinding usus memiliki 100–500 juta neuron sendiri, kadang dijuluki 'otak kedua'.",
+  "Empedu bukan enzim, melainkan cairan pengemulsi yang membantu lipase mencerna lemak lebih efisien.",
+  "Sekitar 70–80% sel imun tubuh berkumpul di sekitar saluran cerna — menjadikannya pusat pertahanan tubuh terbesar.",
+  "Dinding saluran cerna tersusun dari 4 lapisan utama (mukosa, submukosa, muskularis, serosa) — struktur yang konsisten dari esofagus hingga usus besar."
+];
+
+var quiz = [
+  {q:"Organ mana yang menghasilkan asam klorida (HCl) untuk mencerna makanan?", opts:["Usus halus","Lambung","Hati","Pankreas"], correct:1},
+  {q:"Berapa lama makanan biasanya bertahan di lambung?", opts:["5–10 menit","30 menit","2–4 jam","24 jam penuh"], correct:2},
+  {q:"Organ apa yang memproduksi empedu?", opts:["Kantong empedu","Pankreas","Hati","Usus besar"], correct:2},
+  {q:"Apa fungsi utama usus besar?", opts:["Mencerna protein","Menyerap air & membentuk feses","Menghasilkan insulin","Mengunyah makanan"], correct:1},
+  {q:"Enzim apa dalam air liur yang mulai mencerna karbohidrat?", opts:["Pepsin","Lipase","Amilase","Tripsin"], correct:2},
+  {q:"Hormon apa yang memicu kantong empedu melepaskan empedu?", opts:["Gastrin","Sekretin","Kolesistokinin (CCK)","Insulin"], correct:2},
+  {q:"Apa julukan untuk sistem saraf di dinding saluran cerna?", opts:["Otak kedua","Saraf pusat","Saraf tepi","Otak kecil"], correct:0},
+  {q:"Zat apa yang mengemulsi lemak sebelum dipecah lipase?", opts:["Pepsin","Empedu","Amilase","Bikarbonat"], correct:1},
+  {q:"Hormon apa yang dijuluki 'hormon lapar'?", opts:["Leptin","Insulin","Ghrelin","Sekretin"], correct:2},
+  {q:"Lapisan otot mana pada dinding saluran cerna yang menghasilkan gerakan peristaltik?", opts:["Mukosa","Serosa","Muskularis","Submukosa"], correct:2},
+  {q:"Apa istilah untuk jaringan limfoid di sekitar saluran cerna yang berperan besar dalam sistem imun?", opts:["GALT","LDL","ATP","RNA"], correct:0}
+];
+
+var simStages = [
+  {organ:"mulut", accessory:[], duration: reduceMotion?200:1600, path:[[300,93],[300,100]], timeLabel:"0 detik"},
+  {organ:"esofagus", accessory:[], duration: reduceMotion?200:1400, path:[[300,100],[303,150],[315,195],[332,235],[345,258]], timeLabel:"± 10 detik"},
+  {organ:"lambung", accessory:[], duration: reduceMotion?200:2600, path:[[345,258],[388,192],[448,222],[452,296],[384,378],[322,378],[288,340]], timeLabel:"10 detik – 4 jam"},
+  {organ:"usushalus", accessory:["hati","empedu","pankreas"], duration: reduceMotion?200:3400, path:[[288,340],[270,400],[335,455],[285,490],[385,500],[270,568],[325,612],[178,624]], timeLabel:"4 – 8 jam"},
+  {organ:"ususbesar", accessory:[], duration: reduceMotion?200:3000, path:[[178,624],[160,480],[165,398],[300,379],[400,379],[437,500],[428,630],[348,642],[298,700]], timeLabel:"8 – 30 jam"},
+  {organ:"rektum", accessory:[], duration: reduceMotion?200:1400, path:[[298,700],[299,730],[300,762]], timeLabel:"30 – 72 jam"}
+];
+
+/* ============ STATE ============ */
+var svg = document.getElementById("digestive-svg");
+var infoPanel = document.getElementById("info-panel");
+var legendEl = document.getElementById("legend");
+var stepperEl = document.getElementById("stepper");
+var particle = document.getElementById("food-particle");
+var trailHistory = [];
+var simRunning = false;
+var simToken = 0;
+
+/* ============ HELPERS ============ */
+function phPercent(mid){ return Math.max(2, Math.min(98, (mid/14)*100)); }
+function organPath(id){ return svg.querySelector('.organ[data-organ="'+id+'"] path'); }
+
+/* ============ RENDER: organ card ============ */
+function renderOrganCard(id, isSim, stageLabel){
+  var o = organs[id];
+  var phMid = (o.ph[0]+o.ph[1])/2;
+  var vitalsHtml = o.vitals.map(function(v){
+    return '<div class="vital"><span class="vital-label">'+v.l+'</span><span class="vital-value">'+v.v+'</span></div>';
+  }).join("");
+  var badge = isSim ? '<span class="sim-badge">Simulasi &middot; '+stageLabel+'</span>' : '';
+  infoPanel.className = "chart-card";
+  infoPanel.style.setProperty("--card-accent", o.color);
+  infoPanel.innerHTML =
+    badge +
+    '<div class="plate-tag">Plat '+o.plate+' &middot; Sistem Pencernaan</div>'+
+    '<h3>'+o.name+'</h3>'+
+    '<div class="tagline">'+o.tagline+'</div>'+
+    '<div class="vitals-row">'+vitalsHtml+'</div>'+
+    '<div class="ph-gauge">'+
+      '<div class="ph-gauge-top"><span class="ph-gauge-label">'+o.phCtx+'</span><span class="ph-gauge-value">pH '+o.ph[0]+'–'+o.ph[1]+'</span></div>'+
+      '<div class="ph-track"><div class="ph-marker" style="left:'+phPercent(phMid)+'%"></div></div>'+
+      '<div class="ph-scale-labels"><span>0 asam</span><span>7 netral</span><span>14 basa</span></div>'+
+    '</div>'+
+    '<div class="desc"><p>'+o.ringkasan+'</p></div>'+
+    '<hr class="cut-line">'+
+    '<div class="fact-box"><b>Fakta klinis.</b> '+o.fact+'</div>';
+}
+
+function clearActiveOrgans(){
+  var els = svg.querySelectorAll(".organ");
+  for(var i=0;i<els.length;i++){ els[i].classList.remove("active"); }
+  var legs = legendEl.querySelectorAll(".legend-item");
+  for(var j=0;j<legs.length;j++){ legs[j].classList.remove("active"); }
+}
+
+function clearStageAnimClasses(){
+  ORDER.forEach(function(id){
+    var p = organPath(id);
+    if(p){ p.classList.remove("peristalsis","churn"); }
+  });
+}
+
+function selectOrgan(id, accessoryIds){
+  if(simRunning) return;
+  clearActiveOrgans();
+  var el = svg.querySelector('.organ[data-organ="'+id+'"]');
+  if(el) el.classList.add("active");
+  (accessoryIds||[]).forEach(function(aid){
+    var ael = svg.querySelector('.organ[data-organ="'+aid+'"]');
+    if(ael) ael.classList.add("active");
+  });
+  var leg = legendEl.querySelector('.legend-item[data-organ="'+id+'"]');
+  if(leg) leg.classList.add("active");
+  renderOrganCard(id, false, null);
+}
+
+/* ============ LEGEND ============ */
+function renderLegend(){
+  legendEl.innerHTML = ORDER.map(function(id){
+    var o = organs[id];
+    return '<button type="button" class="legend-item" data-organ="'+id+'">'+
+      '<span class="legend-dot" style="background:'+o.color+'"></span>'+o.name+'</button>';
+  }).join("");
+  legendEl.querySelectorAll(".legend-item").forEach(function(btn){
+    btn.addEventListener("click", function(){ selectOrgan(btn.getAttribute("data-organ"), []); });
+  });
+}
+
+/* ============ SVG click/keyboard ============ */
+function setupOrganClicks(){
+  svg.querySelectorAll(".organ").forEach(function(g){
+    g.addEventListener("click", function(){ selectOrgan(g.getAttribute("data-organ"), []); });
+    g.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); selectOrgan(g.getAttribute("data-organ"), []); }
+    });
+  });
+}
+
+/* ============ ENTRANCE ANIMATION ============ */
+function playEntrance(){
+  if(reduceMotion) return;
+  var els = svg.querySelectorAll(".organ");
+  els.forEach(function(el, i){
+    el.style.animationDelay = (i*70)+"ms";
+    el.classList.add("enter");
+  });
+}
+
+/* ============ STEPPER ============ */
+function renderStepper(){
+  var html = "";
+  simStages.forEach(function(s, i){
+    html += '<div class="step" data-stage="'+i+'"><div class="step-dot"></div><div class="step-label">'+organs[s.organ].name+'</div></div>';
+    if(i < simStages.length-1) html += '<div class="step-line"></div>';
+  });
+  stepperEl.innerHTML = html;
+}
+function updateStepper(activeIndex){
+  var steps = stepperEl.querySelectorAll(".step");
+  steps.forEach(function(st){
+    var idx = parseInt(st.getAttribute("data-stage"),10);
+    st.classList.remove("active","done");
+    if(idx < activeIndex) st.classList.add("done");
+    else if(idx === activeIndex) st.classList.add("active");
+  });
+}
+
+/* ============ SIMULATION ============ */
+function lerp(a,b,t){ return a+(b-a)*t; }
+
+function updateTrail(x,y){
+  trailHistory.unshift({x:x,y:y});
+  if(trailHistory.length>5) trailHistory.pop();
+  for(var i=0;i<5;i++){
+    var el = document.getElementById("trail-"+i);
+    var pt = trailHistory[i+1];
+    if(el && pt){
+      el.setAttribute("cx", pt.x);
+      el.setAttribute("cy", pt.y);
+      el.style.opacity = (0.5 - i*0.09);
+    }
+  }
+}
+
+function animateAlongPath(pathPts, duration, onDone, token){
+  var segCount = pathPts.length - 1;
+  if(segCount < 1){ onDone(); return; }
+  var segDur = duration / segCount;
+  var segIndex = 0;
+  var segStart = null;
+
+  function frame(ts){
+    if(token !== simToken) return;
+    if(segStart === null) segStart = ts;
+    var t = Math.min(1, (ts - segStart) / segDur);
+    var p0 = pathPts[segIndex], p1 = pathPts[segIndex+1];
+    var nx = lerp(p0[0],p1[0],t), ny = lerp(p0[1],p1[1],t);
+    particle.setAttribute("cx", nx);
+    particle.setAttribute("cy", ny);
+    updateTrail(nx,ny);
+    if(t >= 1){
+      segIndex++;
+      segStart = ts;
+      if(segIndex >= segCount){ onDone(); return; }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function runStage(i, token){
+  if(token !== simToken) return;
+  if(i >= simStages.length){
+    document.getElementById("sim-timer").textContent = "Selesai — total ± 24–72 jam nyata";
+    simRunning = false;
+    clearStageAnimClasses();
+    document.getElementById("btn-start-sim").disabled = false;
+    document.getElementById("btn-start-sim").textContent = "▶ Mulai Simulasi";
+    setTimeout(function(){
+      if(token===simToken){
+        particle.style.opacity = 0;
+        for(var i2=0;i2<5;i2++){ var el2=document.getElementById("trail-"+i2); if(el2) el2.style.opacity=0; }
+      }
+    }, 900);
+    return;
+  }
+  var stage = simStages[i];
+  updateStepper(i);
+  clearActiveOrgans();
+  clearStageAnimClasses();
+
+  var el = svg.querySelector('.organ[data-organ="'+stage.organ+'"]');
+  if(el) el.classList.add("active");
+  var p = organPath(stage.organ);
+  if(p){
+    if(TUBE_ORGANS.indexOf(stage.organ) !== -1) p.classList.add("peristalsis");
+    else if(CHURN_ORGANS.indexOf(stage.organ) !== -1) p.classList.add("churn");
+  }
+  stage.accessory.forEach(function(aid){
+    var ael = svg.querySelector('.organ[data-organ="'+aid+'"]');
+    if(ael) ael.classList.add("active");
+  });
+  renderOrganCard(stage.organ, true, organs[stage.organ].name);
+  document.getElementById("sim-timer").textContent = "Waktu simulasi: "+stage.timeLabel;
+
+  animateAlongPath(stage.path, stage.duration, function(){
+    if(token !== simToken) return;
+    runStage(i+1, token);
+  }, token);
+}
+
+function startSimulation(){
+  if(simRunning) return;
+  simRunning = true;
+  simToken++;
+  var myToken = simToken;
+  trailHistory = [];
+  document.getElementById("btn-start-sim").disabled = true;
+  document.getElementById("btn-start-sim").textContent = "Berjalan…";
+  particle.style.opacity = 1;
+  particle.setAttribute("cx", 300);
+  particle.setAttribute("cy", 93);
+  runStage(0, myToken);
+}
+
+function resetSimulation(){
+  simToken++;
+  simRunning = false;
+  trailHistory = [];
+  clearActiveOrgans();
+  clearStageAnimClasses();
+  updateStepper(-1);
+  particle.style.opacity = 0;
+  particle.setAttribute("cx", 300);
+  particle.setAttribute("cy", 93);
+  for(var i=0;i<5;i++){ var el=document.getElementById("trail-"+i); if(el) el.style.opacity=0; }
+  document.getElementById("btn-start-sim").disabled = false;
+  document.getElementById("btn-start-sim").textContent = "▶ Mulai Simulasi";
+  document.getElementById("sim-timer").textContent = "";
+  infoPanel.className = "chart-card empty";
+  infoPanel.innerHTML = '<div class="empty-inner"><div class="empty-icon">🩺</div><div>Klik salah satu organ pada diagram, atau pilih dari daftar warna di bawahnya, untuk membuka kartu diagnostiknya di sini.</div></div>';
+}
+
+/* ============ TABS ============ */
+function setupTabs(){
+  var btns = document.querySelectorAll(".tab-btn");
+  btns.forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var target = btn.getAttribute("data-tab");
+      btns.forEach(function(b){ b.classList.remove("active"); b.setAttribute("aria-selected","false"); });
+      btn.classList.add("active"); btn.setAttribute("aria-selected","true");
+      document.querySelectorAll(".tab-content").forEach(function(tc){ tc.classList.remove("active"); });
+      document.getElementById("tab-"+target).classList.add("active");
+    });
+  });
+}
+
+/* ============ MATERI: flow strip + accordion + disorders + tips ============ */
+function renderFlowStrip(){
+  var el = document.getElementById("flow-strip");
+  var html = "";
+  ORDER.forEach(function(id,i){
+    html += '<span class="flow-chip">'+organs[id].name+'</span>';
+    if(i < ORDER.length-1) html += '<span class="flow-arrow">→</span>';
+  });
+  el.innerHTML = html;
+}
+
+function renderAccordion(){
+  var el = document.getElementById("accordion-materi");
+  var html = "";
+  ORDER.forEach(function(id){
+    var o = organs[id];
+    var fungsiLi = o.materi.fungsi.map(function(f){return "<li>"+f+"</li>";}).join("");
+    var enzimTags = o.materi.enzim.map(function(e){return '<span class="enz-tag">'+e+'</span>';}).join("");
+    html +=
+      '<div class="accordion-item" data-organ="'+id+'">'+
+        '<button type="button" class="accordion-head">'+
+          '<span class="swatch" style="background:'+o.color+';color:'+o.color+'"></span>'+
+          '<span class="plate-num">Plat '+o.plate+'</span>'+
+          '<span class="name">'+o.name+'</span>'+
+          '<span class="chev">▾</span>'+
+        '</button>'+
+        '<div class="accordion-body"><div class="accordion-body-inner">'+
+          '<h4>Fungsi</h4><ul>'+fungsiLi+'</ul>'+
+          '<h4>Proses</h4><p>'+o.materi.proses+'</p>'+
+          '<h4>Enzim &amp; zat terkait</h4><div>'+enzimTags+'</div>'+
+          '<h4>Fakta tambahan</h4><p>'+o.materi.fakta+'</p>'+
+        '</div></div>'+
+      '</div>';
+  });
+  el.innerHTML = html;
+
+  el.querySelectorAll(".accordion-item").forEach(function(item){
+    var head = item.querySelector(".accordion-head");
+    var body = item.querySelector(".accordion-body");
+    head.addEventListener("click", function(){
+      var isOpen = item.classList.contains("open");
+      el.querySelectorAll(".accordion-item").forEach(function(other){
+        other.classList.remove("open");
+        other.querySelector(".accordion-body").style.maxHeight = null;
+      });
+      if(!isOpen){
+        item.classList.add("open");
+        body.style.maxHeight = body.scrollHeight + "px";
+      }
+    });
+  });
+}
+
+function renderDisorders(){
+  var el = document.getElementById("disorders-grid");
+  el.innerHTML = disorders.map(function(d){
+    var oc = organs[d.organ].color;
+    return '<div class="disorder-card" style="--d-color:'+oc+'">'+
+      '<div class="d-name">'+d.nama+'</div>'+
+      '<div class="d-organ">Terkait &middot; '+organs[d.organ].name+'</div>'+
+      '<div class="d-row"><b>Gejala umum</b>'+d.gejala+'</div>'+
+      '<div class="d-row"><b>Penyebab umum</b>'+d.sebab+'</div>'+
+    '</div>';
+  }).join("");
+}
+
+function renderTips(){
+  var el = document.getElementById("tips-grid");
+  el.innerHTML = tips.map(function(t,i){
+    return '<div class="tip-card"><span class="tip-num">'+String(i+1).padStart(2,"0")+'</span><span>'+t+'</span></div>';
+  }).join("");
+}
+
+/* ============ LEBIH DALAM: layers, macros, hormones, glossary ============ */
+function renderLayers(){
+  var el = document.getElementById("layer-grid");
+  el.innerHTML = layers.map(function(l,i){
+    return '<div class="layer-card" data-depth="0'+(i+1)+'"><div class="l-name">'+l.nama+'</div><div class="l-pos">'+l.pos+'</div><div class="l-desc">'+l.desc+'</div></div>';
+  }).join("");
+}
+
+function renderMacros(){
+  var el = document.getElementById("macro-grid");
+  el.innerHTML = macros.map(function(m){
+    var stepsHtml = m.steps.map(function(s){
+      return '<div class="macro-step"><div class="loc">'+s.loc+'</div><div class="desc">'+s.desc+'</div></div>';
+    }).join("");
+    return '<div class="macro-card" style="--m-color:'+m.color+'"><h4>'+m.nama+'</h4>'+stepsHtml+'</div>';
+  }).join("");
+}
+
+function renderHormones(){
+  var el = document.getElementById("hormone-grid");
+  el.innerHTML = hormones.map(function(h){
+    return '<div class="hormone-card">'+
+      '<div class="h-name">'+h.nama+'</div>'+
+      '<div class="h-row"><b>Dihasilkan</b>'+h.asal+'</div>'+
+      '<div class="h-row"><b>Pemicu</b>'+h.pemicu+'</div>'+
+      '<div class="h-row"><b>Efek</b>'+h.efek+'</div>'+
+    '</div>';
+  }).join("");
+}
+
+function renderGlossary(){
+  var el = document.getElementById("glossary-grid");
+  el.innerHTML = glossary.map(function(g){
+    return '<div class="gloss-item"><div class="g-term">'+g.t+'</div><div class="g-def">'+g.d+'</div></div>';
+  }).join("");
+}
+
+/* ============ FACTS ============ */
+function renderFacts(){
+  var el = document.getElementById("facts-grid");
+  el.innerHTML = facts.map(function(f,i){
+    return '<div class="fact-card"><span class="fact-num">CATATAN '+String(i+1).padStart(2,"0")+'</span>'+f+'</div>';
+  }).join("");
+}
+
+/* ============ QUIZ ============ */
+var quizAnswered = 0, quizScore = 0;
+function renderQuiz(){
+  var el = document.getElementById("quiz-container");
+  var html = "";
+  quiz.forEach(function(item, qi){
+    html += '<div class="quiz-card" data-qi="'+qi+'"><div class="quiz-q">'+(qi+1)+". "+item.q+'</div><div class="quiz-opts">';
+    item.opts.forEach(function(opt, oi){
+      html += '<button type="button" class="quiz-opt" data-oi="'+oi+'">'+opt+'</button>';
+    });
+    html += '</div><div class="quiz-feedback"></div></div>';
+  });
+  el.innerHTML = html;
+  document.getElementById("score-num").textContent = "0/"+quiz.length;
+
+  el.querySelectorAll(".quiz-card").forEach(function(card){
+    var qi = parseInt(card.getAttribute("data-qi"),10);
+    var item = quiz[qi];
+    var opts = card.querySelectorAll(".quiz-opt");
+    var feedback = card.querySelector(".quiz-feedback");
+    opts.forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var oi = parseInt(btn.getAttribute("data-oi"),10);
+        opts.forEach(function(b){ b.disabled = true; });
+        if(oi === item.correct){
+          btn.classList.add("correct");
+          feedback.textContent = "Benar. " + item.opts[item.correct] + " adalah jawabannya.";
+          quizScore++;
+        } else {
+          btn.classList.add("incorrect");
+          opts[item.correct].classList.add("correct");
+          feedback.textContent = "Kurang tepat. Jawaban yang benar: " + item.opts[item.correct] + ".";
+        }
+        quizAnswered++;
+        if(quizAnswered === quiz.length){
+          var scoreBox = document.getElementById("quiz-score");
+          scoreBox.classList.add("show");
+          document.getElementById("score-num").textContent = quizScore + "/" + quiz.length;
+          var msg = quizScore === quiz.length ? "Sempurna — pemahamanmu soal sistem pencernaan sudah solid." :
+                     quizScore >= Math.ceil(quiz.length*0.6) ? "Lumayan — coba buka lagi tab Materi Lengkap & Lebih Dalam untuk melengkapi." :
+                     "Masih perlu banyak baca ulang, tapi itu wajar untuk permulaan.";
+          document.getElementById("score-msg").textContent = msg;
+        }
+      });
+    });
+  });
+}
+
+/* ============ COUNT-UP STATS ============ */
+function setupCountUp(){
+  var nums = document.querySelectorAll(".stat-box .num[data-target]");
+  if(!nums.length) return;
+  if(reduceMotion){
+    nums.forEach(function(el){ el.textContent = el.getAttribute("data-target")+el.getAttribute("data-suffix"); });
+    return;
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var el = entry.target;
+        var target = parseFloat(el.getAttribute("data-target"));
+        var suffix = el.getAttribute("data-suffix");
+        var start = null, dur = 1100;
+        function frame(ts){
+          if(start===null) start=ts;
+          var p = Math.min(1,(ts-start)/dur);
+          var eased = 1-Math.pow(1-p,3);
+          el.textContent = Math.round(target*eased)+suffix;
+          if(p<1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+        obs.unobserve(el);
+      }
+    });
+  }, {threshold:0.4});
+  nums.forEach(function(el){ obs.observe(el); });
+}
+
+/* ============ INIT ============ */
+function init(){
+  var d = new Date();
+  var bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  document.getElementById("today-date").textContent = "TANGGAL " + d.getDate() + " " + bulan[d.getMonth()] + " " + d.getFullYear();
+
+  renderLegend();
+  setupOrganClicks();
+  renderStepper();
+  setupTabs();
+  renderFlowStrip();
+  renderAccordion();
+  renderDisorders();
+  renderTips();
+  renderLayers();
+  renderMacros();
+  renderHormones();
+  renderGlossary();
+  renderFacts();
+  renderQuiz();
+  setupCountUp();
+  playEntrance();
+
+  document.getElementById("btn-start-sim").addEventListener("click", startSimulation);
+  document.getElementById("btn-reset-sim").addEventListener("click", resetSimulation);
+}
+
+document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+</body>
+</html>
