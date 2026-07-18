@@ -1,4 +1,4 @@
-<svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Atlas Interaktif — Sistem Pencernaan Manusia">
+<svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SISTEM PENCERNAAN Interaktif — Sistem Pencernaan Manusia">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0a161f"/>
@@ -35,7 +35,7 @@
   <line x1="60" y1="102" x2="1140" y2="102" stroke="#eef6f4" stroke-opacity="0.1"/>
 
   <!-- title block -->
-  <text x="60" y="182" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700" letter-spacing="-1" fill="url(#titleGrad)">ATLAS INTERAKTIF</text>
+  <text x="60" y="182" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700" letter-spacing="-1" fill="url(#titleGrad)">SISTEM PENCERNAAN INTERAKTIF</text>
   <text x="60" y="222" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="500" fill="#eef6f4">Sistem Pencernaan Manusia</text>
   <text x="60" y="252" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#96a9a4">Peta organ interaktif &#183; simulasi peristaltik &#183; gauge pH &#183; kuis pemahaman</text>
 
