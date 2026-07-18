@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="banner.svg" alt="Atlas Interaktif — Sistem Pencernaan Manusia" width="100%" />
+  <img src="banner.svg" alt="SISTEM PENCERNAAN Interaktif — Sistem Pencernaan Manusia" width="100%" />
 </p>
 
-<h1 align="center">Atlas Interaktif — Sistem Pencernaan Manusia</h1>
+<h1 align="center">SISTEM PENCERNAAN Interaktif — Sistem Pencernaan Manusia</h1>
 
 <p align="center">
   Peta anatomi yang bisa diklik, simulasi perjalanan makanan dengan gelombang peristaltik hidup,<br/>
@@ -19,7 +19,7 @@
 
 ## Tentang Proyek
 
-**Atlas Interaktif** adalah aplikasi web satu halaman (*single-page*) untuk mempelajari sistem pencernaan manusia secara visual dan interaktif. Alih-alih membaca teks datar, pengguna bisa mengklik tiap organ pada diagram anatomi, menjalankan simulasi perjalanan makanan lengkap dengan gelombang peristaltik dan jejak partikel, memantau gauge pH tiap organ secara langsung, membaca materi berlapis dari dasar sampai lanjutan, dan menguji pemahamannya lewat kuis di akhir.
+**SISTEM PENCERNAAN Interaktif** adalah aplikasi web satu halaman (*single-page*) untuk mempelajari sistem pencernaan manusia secara visual dan interaktif. Alih-alih membaca teks datar, pengguna bisa mengklik tiap organ pada diagram anatomi, menjalankan simulasi perjalanan makanan lengkap dengan gelombang peristaltik dan jejak partikel, memantau gauge pH tiap organ secara langsung, membaca materi berlapis dari dasar sampai lanjutan, dan menguji pemahamannya lewat kuis di akhir.
 
 Seluruhnya berjalan dari satu file HTML — tanpa server, tanpa instalasi, tanpa proses build. Tinggal dibuka di browser.
 
