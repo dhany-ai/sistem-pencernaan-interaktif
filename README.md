@@ -46,11 +46,6 @@ Seluruhnya berjalan dari satu file HTML — tanpa server, tanpa instalasi, tanpa
 | 08 | Usus Besar | 5.5 – 7.0 |
 | 09 | Rektum & Anus | 6.5 – 7.0 |
 
-## 🚀 Cara Menjalankan
-
-**Lokal** — unduh `index.html`, lalu buka langsung dengan browser apa saja. Tidak perlu server atau dependency tambahan.
-
-**GitHub Pages (demo online)** — aktifkan lewat *Settings → Pages → Deploy from branch* (pilih branch `main`, folder `/root`). Karena proyek ini hanya berisi satu file statis, halaman langsung bisa diakses publik tanpa konfigurasi tambahan.
 
 ## 🗂️ Struktur Proyek
 
